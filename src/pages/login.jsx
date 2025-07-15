@@ -1,244 +1,206 @@
 import React, { useState } from "react";
+import bicycleBoy from "../images/bicycle-boy.svg";
 import { useNavigate } from "react-router-dom";
-import { platformTypeDropdown } from "../utils/stores";
 
-// LifeCycle Hooks in React: 
-// useState: Helps store the dataType of a variable
-
-// The Independent method
-// function Login() {
-//     const [email, setEmail] = useState("");
-//     const [password, setPassword] = useState("");
-//     const [plaformType, setPlatformType] = useState("");
-//     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-//     const platFormSelect = platformTypeDropdown;
-
-
-//     const handleSubmit = (e) => {
-//         e.preventDefault();
-//         const result = {
-//             email:email,
-//             password:password,
-//             plaformType:plaformType,
-//             isLoggedIn: isLoggedIn
-//         };
-
-//         console.log("result>>",result);
-//     }
-
-//     return (
-//         <>
-//             <div className="min-h-screen flex items-center justify-center bg-blue-700 px-4">
-//                 <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg">
-//                     <h2 className="text-2xl font-bold text-center mb-6">Login to Your Account</h2>
-//                     <form className="space-y-6">
-//                         <div>
-//                             <label for="email" className="block text-sm font-medium text-gray-700">Email</label>
-//                             <input
-//                                 id="email"
-//                                 name="email"
-//                                 type="email"
-//                                 value={email}
-//                                 onChange={(event) => setEmail(event.target.value)}
-//                                 required
-//                                 className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                             />
-//                         </div>
-
-//                         <div>
-//                             <label for="password" className="block text-sm font-medium text-gray-700">Password</label>
-//                             <input
-//                                 id="password"
-//                                 name="password"
-//                                 type="password"
-//                                 value={password}
-//                                 onChange={(event) => setPassword(event.target.value)}
-//                                 required
-//                                 className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-//                             />
-//                         </div>
-
-//                         <div>
-
-//                             <form className="max-w-sm mx-auto">
-//                                 <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900">Select an option</label>
-//                                 <select id="countries" value={plaformType}  onChange={(event) => setPlatformType(event.target.value)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-//                                     <option selected>Select PlaformType</option>
-//                                     {
-//                                         platFormSelect.map((item) => (
-//                                             <>
-//                                                 <option value={item.value}>{item.description}</option>
-//                                             </>
-//                                         ))
-//                                     }
-//                                 </select>
-//                             </form>
-
-//                         </div>
-
-//                         <div className="flex items-center">
-//                             <input
-//                                 id="remember_me"
-//                                 name="remember_me"
-//                                 type="checkbox"
-//                                 value={isLoggedIn}
-//                                  onChange={(event) => setIsLoggedIn(event.target.checked)}
-//                                 className="h-4 w-4 text-blue-600 border-gray-300 rounded"
-//                             />
-//                             <label for="remember_me" className="ml-2 block text-sm text-gray-700">
-//                                 Keep me logged in
-//                             </label>
-//                         </div>
-
-//                         <div>
-//                             <button
-//                                 type="submit" onClick={handleSubmit}
-//                                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl transition duration-200"
-//                             >
-//                                 Sign In
-//                             </button>
-//                         </div>
-//                     </form>
-//                 </div>
-//             </div>
-
-//         </>
-//     )
-// }
-
-
-// The Object-destructuring method
 function Login() {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate()  // useNavigate is used for routing from page to page
+  let [userData, setUserData] = useState({
+    email: "",
+    password: "",
+    isRememberMe: false,
+  });
+  const { email, password, isRememberMe } = userData;
 
-    let [loginProps, setLoginProps] = useState({
-        email: "",
-        password: "",
-        plaformType: "",
-        isLoggedIn: false
-    })
+  const handleChange = (e) => {
+    setUserData({
+      ...userData,
+      [e.target.name?.trim()]:
+        e.target.name === "remember-me" ? e.target.checked : e.target.value,
+    });
+  };
 
-    // destructure the state
-    const { email, password, plaformType, isLoggedIn } = loginProps;
-
-    const platFormSelect = platformTypeDropdown;
-
-    const handleChange = (event) => {
-        setLoginProps({
-            ...loginProps,
-            [event.target.name?.trim()]: event.target.name === 'isLoggedIn' ?  event.target.checked : event.target.value,
-        });
+  // check if the form is completed
+  async function formIsFilled(userData) {
+    let isFilled = true;
+    for (const key in userData) {
+      if (userData[key] === "" && typeof userData[key] === "string") {
+        isFilled = false;
+      } else if (
+        userData[key] === false &&
+        typeof userData[key] === "boolean"
+      ) {
+        isFilled = false;
+      } else if (userData[key] === undefined) {
+        isFilled = false;
+      } else if (userData[key] === null) {
+        isFilled = false;
+      } else {
+        isFilled = true;
+      }
     }
+    return isFilled;
+  }
 
-    // loginIsFilled helps check if the entire form is filled.
-   async function loginIsFilled(loginProps){
-   let isFormFilled = true;
-    for(const key in loginProps){
-        if(typeof(loginProps[key]) === "string" && loginProps[key] === ""){
-            isFormFilled = false;
-        }else if(typeof(loginProps[key]) === "boolean" && loginProps[key] === false ){
-            isFormFilled = false;
-        }else{
-            isFormFilled = true;
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const isFilled = await formIsFilled(userData);
+    console.log("Is form filled?", isFilled);
+    if (isFilled) {
+      await navigate("/dashboard");
+      setUserData({ ...userData, isLoggedIn: true });
+      // Simulate a successful login
+      console.log("Login successful", userData);
     }
+  };
+  return (
+    <div className="min-h-screen flex flex-col md:flex-row">
+      {/* Left Side - Login Form (full width on mobile, 50% on desktop) */}
+      <div className="w-full md:w-1/2 flex items-center justify-center p-4 md:p-8">
+        <div className="w-full max-w-md space-y-8 md:space-y-16">
+          <div className="pt-8 md:pt-0 md:-mt-32 pb-10 md:pb-20">
+            <h1 className="text-2xl text-[#3751FE] font-bold">Digital</h1>
+          </div>
 
-    return isFormFilled;
-    }
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-[#3751FE]">
+              Artificial Intelligence Driving Results For The Travel Industry
+            </h2>
+            <p className="mt-2 text-sm text-gray-600">
+              Welcome back! Please login to your account.
+            </p>
+          </div>
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const isFormFilled = await loginIsFilled(loginProps);
-        console.log("form is fully inputted>>", isFormFilled);
-        if(isFormFilled === true){
-          await navigate("/dashboard");
-        }
-    }
-
-    return (
-        <>
-            <div className="min-h-screen flex items-center justify-center bg-blue-700 px-4">
-                <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg">
-                    <h2 className="text-2xl font-bold text-center mb-6">Login to Your Account</h2>
-                    <form className="space-y-6">
-                        <div>
-                            <label for="email" className="block text-sm font-medium text-gray-700">Email</label>
-                            <input
-                                id="email"
-                                name="email"
-                                type="email"
-                                value={email}
-                                onChange={(event) => handleChange(event)}
-                                required
-                                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                        </div>
-
-                        <div>
-                            <label for="password" className="block text-sm font-medium text-gray-700">Password</label>
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                value={password}
-                                onChange={(event) => handleChange(event)}
-                                required
-                                className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
-                        </div>
-
-                        <div>
-
-                            <form className="max-w-sm mx-auto">
-                                <label htmlFor="countries" className="block mb-2 text-sm font-medium text-gray-900">Select an option</label>
-                                <select id="countries"
-                                    name="plaformType"
-                                    value={plaformType}
-                                    onChange={(event) => handleChange(event)}
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                    <option selected>Select PlaformType</option>
-                                    {
-                                        platFormSelect.map((item) => (
-                                            <>
-                                                <option value={item.value}>{item.description}</option>
-                                            </>
-                                        ))
-                                    }
-                                </select>
-                            </form>
-
-                        </div>
-
-                        <div className="flex items-center">
-                            <input
-                                id="remember_me"
-                                name="isLoggedIn"
-                                type="checkbox"
-                                className="h-4 w-4 text-blue-600 border-gray-300 rounded"
-                                value={isLoggedIn}
-                                onChange={(event) => handleChange(event)}
-                            />
-                            <label for="remember_me" className="ml-2 block text-sm text-gray-700">
-                                Keep me logged in
-                            </label>
-                        </div>
-
-                        <div>
-                            <button
-                                type="submit" onClick={handleSubmit}
-                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl transition duration-200"
-                            >
-                                Sign In
-                            </button>
-                        </div>
-                    </form>
+          <form className="mt-6 md:mt-8 space-y-6 md:space-y-10">
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="email" className="sr-only">
+                  Email address
+                </label>
+                <div className="relative border border-gray-300 group focus-within:border-l-[#3751FE] focus-within:border-l-4">
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => handleChange(e)}
+                    required
+                    className="appearance-none block w-full px-3 py-3 md:py-4 border-0 focus:ring-0 placeholder-gray-500 text-gray-900 text-sm md:text-base bg-transparent placeholder:text-[#3751FE] placeholder:font-bold"
+                    placeholder="hakeem@digital.com"
+                  />
                 </div>
+              </div>
+
+              <div>
+                <label htmlFor="password" className="sr-only">
+                  Password
+                </label>
+                <div className="relative border border-gray-300 group focus-within:border-l-[#3751FE] focus-within:border-l-4">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => handleChange(e)}
+                    required
+                    className="appearance-none block w-full px-3 py-3 md:py-4 border-0 focus:ring-0 placeholder-gray-500 text-gray-900 text-sm md:text-base bg-transparent placeholder:text-[#3751FE] placeholder:font-bold"
+                    placeholder="***********"
+                  />
+                </div>
+              </div>
             </div>
 
-        </>
-    )
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <input
+                  id="remember-me"
+                  name="remember-me"
+                  type="checkbox"
+                  // checked={isLoggedIn}
+                  value={isRememberMe}
+                  onChange={(e) => handleChange(e)}
+                  className="h-3 w-3 text-[#3751FE] focus:ring-[#3751FE] border-gray-300"
+                />
+                <label
+                  htmlFor="remember-me"
+                  className="ml-2 block text-sm text-gray-900"
+                >
+                  Remember me
+                </label>
+              </div>
+
+              <button className="text-sm font-medium text-[#3751FE]">
+                Forgot password?
+              </button>
+            </div>
+
+            <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 w-full sm:w-1/2">
+              <button
+                onClick={handleSubmit}
+                type="submit"
+                className="group relative w-full justify-center py-3 px-4 border border-transparent text-sm font-medium shadow-lg shadow-slate-400/50 text-white bg-[#3751FE] focus:outline-none "
+              >
+                Login
+              </button>
+              <button
+                type="button"
+                className="group relative w-full justify-center py-3 px-4 border border-[#3751FE] text-sm font-medium text-black bg-white focus:outline-none "
+              >
+                Sign Up
+              </button>
+            </div>
+
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-10 md:pt-20 space-y-4 sm:space-y-0">
+              <p className="text-sm sm:text-base">Or login with</p>
+              <div className="flex justify-between sm:justify-end sm:space-x-6">
+                <button className="text-[#3751FE] font-bold text-sm sm:text-base">
+                  Facebook
+                </button>
+                <button className="text-[#3751FE] font-bold text-sm sm:text-base">
+                  LinkedIn
+                </button>
+                <button className="text-[#3751FE] font-bold text-sm sm:text-base">
+                  Google
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      {/* Right Side - Navbar + Image (hidden on mobile, 50% on desktop) */}
+      <div className="hidden md:flex w-full h-screen bg-[#E5E5E5] md:w-1/2 flex-col bg-gradient-to-br min-h-[50vh] md:min-h-full">
+        {/* Navbar */}
+        <nav className="p-4 md:p-6 flex justify-center">
+          <div className="flex space-x-6 lg:space-x-20">
+            <button className="text-lg lg:text-xl text-gray-600 font-semibold hover:text-black border-b-2 border-[#3751FE]">
+              Home
+            </button>
+            <button className="text-lg lg:text-xl text-gray-600 font-semibold hover:text-black">
+              About
+            </button>
+            <button className="text-lg lg:text-xl text-gray-600 font-semibold hover:text-black">
+              Blog
+            </button>
+            <button className="text-lg lg:text-xl text-gray-600 font-semibold hover:text-black">
+              Pricing
+            </button>
+          </div>
+        </nav>
+
+        {/* Centered Image */}
+        <div className="flex-1 flex items-center justify-center p-4 md:p-12">
+          <div className="text-center w-full">
+            <img
+              src={bicycleBoy}
+              alt="Decorative"
+              className="mx-auto w-full "
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Login;
