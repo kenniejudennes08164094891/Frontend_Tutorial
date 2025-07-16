@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { platformTypeDropdown } from "../utils/stores";
+import { RecentTable } from "./dasboard";
+import { setRecord } from "../services/transmitters";
+import { referenceVariableEnums } from "../utils/stores";
 
 // LifeCycle Hooks in React: 
 // useState: Helps store the dataType of a variable
@@ -113,6 +116,7 @@ function Login() {
 
     const navigate = useNavigate()  // useNavigate is used for routing from page to page
 
+    const [loginText, setLoginText] = useState("sign in");
     let [loginProps, setLoginProps] = useState({
         email: "",
         password: "",
@@ -128,32 +132,53 @@ function Login() {
     const handleChange = (event) => {
         setLoginProps({
             ...loginProps,
-            [event.target.name?.trim()]: event.target.name === 'isLoggedIn' ?  event.target.checked : event.target.value,
+            [event.target.name?.trim()]: event.target.name === 'isLoggedIn' ? event.target.checked : event.target.value,
         });
     }
 
     // loginIsFilled helps check if the entire form is filled.
-   async function loginIsFilled(loginProps){
-   let isFormFilled = true;
-    for(const key in loginProps){
-        if(typeof(loginProps[key]) === "string" && loginProps[key] === ""){
-            isFormFilled = false;
-        }else if(typeof(loginProps[key]) === "boolean" && loginProps[key] === false ){
-            isFormFilled = false;
-        }else{
-            isFormFilled = true;
+    async function loginIsFilled(loginProps) {
+        let isFormFilled = true;
+        for (const key in loginProps) {
+            if (typeof (loginProps[key]) === "string" && loginProps[key] === "") {
+                isFormFilled = false;
+            } else if (typeof (loginProps[key]) === "boolean" && loginProps[key] === false) {
+                isFormFilled = false;
+            } else {
+                isFormFilled = true;
+            }
         }
+
+        return isFormFilled;
     }
 
-    return isFormFilled;
-    }
+    // Methods in React used to transfer data from one page to another page
+    //Local Storage...is the browser storage found in the Application tab after page inspect. It stores data without dependence on whether the browser is active or not.
+    //Session Storage...is the browser storage found in the Application tab after page inspect. It stores data temporarily while the broser tab is active.
+    //Index DB
+    //Props...is a special way of inheritance such that components can be declared in other components using specific variables common between the two components.
+    //React Context: useNavigate, useLocation, useContext
+    //State Manenagement: Rxjs, Redux etc
+    //APIs (Application Programming Interface)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoginText("loading...")
         const isFormFilled = await loginIsFilled(loginProps);
-        console.log("form is fully inputted>>", isFormFilled);
-        if(isFormFilled === true){
-          await navigate("/dashboard");
+        // console.log("form is fully inputted>>", isFormFilled);
+        const currentTime = new Date();
+        const payload = {
+            ...loginProps,
+            dateLoggedIn: `${currentTime?.toDateString()}-${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`
+        }
+        setLoginProps(payload);
+        //  console.log("payload>>", payload);
+        if (isFormFilled === true) {
+            // localStorage.setItem("user", JSON.stringify(payload));
+            setRecord(referenceVariableEnums.localStorage, "user", payload);
+            //  sessionStorage.setItem("user", JSON.stringify(payload));
+            navigate("/dashboard")
+            // await navigate("/dashboard",{state: payload});
         }
     }
 
@@ -230,13 +255,14 @@ function Login() {
                                 type="submit" onClick={handleSubmit}
                                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl transition duration-200"
                             >
-                                Sign In
+                                {loginText}
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
-
+              <RecentTable loginDetails={loginProps}/>
+                {/* Props */}
         </>
     )
 }

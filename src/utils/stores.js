@@ -17,3 +17,9 @@
         },
 
     ]
+
+   export const referenceVariableEnums = {
+        localStorage: "localStorage",
+        sessionStorage: "sessionStorage",
+        navigation: "navigation",
+    }

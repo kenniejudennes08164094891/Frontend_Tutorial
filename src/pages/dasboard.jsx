@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getRecord } from "../services/transmitters";
 
 function Sidebar() {
   return (
@@ -20,13 +22,21 @@ function SidebarItem({ label }) {
   );
 }
 
+
+
 function TopBar() {
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    navigate("/");
+  }
+
   return (
     <header className="flex justify-between items-center px-6 py-4 bg-white shadow sticky top-0 z-10">
       <h1 className="text-xl font-semibold">Dashboard</h1>
       <div className="flex items-center gap-4">
         <button className="text-gray-600">🔔</button>
-        <button className="text-gray-600">🚪</button>
+        <button className="text-gray-600" onClick={handleLogout}>🚪</button>
       </div>
     </header>
   );
@@ -41,12 +51,38 @@ function StatCard({ title, value }) {
   );
 }
 
-function RecentTable() {
-  const rows = [
-    { name: "Jane Doe", action: "Logged in", date: "2025-07-15" },
-    { name: "John Smith", action: "Updated profile", date: "2025-07-14" },
-    { name: "Emily Green", action: "Added item", date: "2025-07-13" },
-  ];
+export function RecentTable({ loginDetails }) {
+
+
+  // useEffect() is a special React LifecycleHook that helps to fetch data from external environments outside React code
+  // It must be declared inside the function to which it is called
+  let [loginRecord, setLoginRecord] = useState([])
+  const location = useLocation();
+  const {state} = location;
+  // console.log("location>>",state);
+
+  useEffect(() => {
+    // const getLoggedInUser = localStorage.getItem("user");
+    //    const getLoggedInUser = sessionStorage.getItem("user");
+    // if(getLoggedInUser !== null){
+    //   let parseData = JSON.parse(getLoggedInUser);
+    //     let rows = [];
+    //   rows.push(parseData);
+    //   setLoginRecord(rows);
+    // }
+    // if (state) {
+    //   let rows = [];
+    //   rows.push(state);
+    //   setLoginRecord(rows);
+    // }
+
+    const getData = getRecord();
+    setLoginRecord(getData);
+    console.log("getData>>",getData);
+    // console.clear();
+  }, []) // The dependency array helps to deconstruct the useEffect after the variable has been called.
+
+
 
   return (
     <div className="bg-white rounded-xl shadow p-6 mt-8 overflow-x-auto">
@@ -54,19 +90,21 @@ function RecentTable() {
       <table className="min-w-full text-sm text-left">
         <thead className="border-b text-gray-600">
           <tr>
+            <th className="py-2">#</th>
             <th className="py-2">Email</th>
             <th className="py-2">Password</th>
             <th className="py-2">Platform Type</th>
-               <th className="py-2">Date LoggedIn</th>
+            <th className="py-2">Date LoggedIn</th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, idx) => (
-            <tr key={idx} className="border-b">
-              <td className="py-2">{row.name}</td>
-              <td className="py-2">{row.action}</td>
-              <td className="py-2">{row.date}</td>
-               <td className="py-2">{row.date}</td>
+          {loginRecord.map((item, index) => (
+            <tr key={index} className="border-b">
+              <td className="py-2">{index + 1}</td>
+              <td className="py-2">{item.email}</td>
+              <td className="py-2">{item.password}</td>
+              <td className="py-2">{item.plaformType}</td>
+              <td className="py-2">{item.dateLoggedIn}</td>
             </tr>
           ))}
         </tbody>
