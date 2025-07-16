@@ -175,7 +175,7 @@ function Login() {
         //  console.log("payload>>", payload);
         if (isFormFilled === true) {
             // localStorage.setItem("user", JSON.stringify(payload));
-            setRecord(referenceVariableEnums.localStorage, "user", payload);
+          await setRecord(referenceVariableEnums.localStorage, "user", payload);
             //  sessionStorage.setItem("user", JSON.stringify(payload));
             navigate("/dashboard")
             // await navigate("/dashboard",{state: payload});

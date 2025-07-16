@@ -61,7 +61,7 @@ export function RecentTable({ loginDetails }) {
   const {state} = location;
   // console.log("location>>",state);
 
-  useEffect(() => {
+  useEffect(async () => {
     // const getLoggedInUser = localStorage.getItem("user");
     //    const getLoggedInUser = sessionStorage.getItem("user");
     // if(getLoggedInUser !== null){
@@ -76,9 +76,9 @@ export function RecentTable({ loginDetails }) {
     //   setLoginRecord(rows);
     // }
 
-    const getData = getRecord();
+    const getData = await getRecord();
     setLoginRecord(getData);
-    console.log("getData>>",getData);
+    console.table(getData);
     // console.clear();
   }, []) // The dependency array helps to deconstruct the useEffect after the variable has been called.
 
