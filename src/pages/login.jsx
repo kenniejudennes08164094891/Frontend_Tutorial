@@ -261,7 +261,7 @@ function Login() {
                     </form>
                 </div>
             </div>
-              <RecentTable loginDetails={loginProps}/>
+              {/* <RecentTable loginDetails={loginProps}/> */}
                 {/* Props */}
         </>
     )

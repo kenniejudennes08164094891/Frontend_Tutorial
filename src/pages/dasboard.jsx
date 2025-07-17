@@ -3,18 +3,32 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getRecord } from "../services/transmitters";
 
 function Sidebar() {
+  const navigate = useNavigate();
+  const handleNavigate = (route,e) => {
+    e.preventDefault();
+    navigate(route);
+  }
   return (
     <aside className="w-64 h-screen bg-gray-900 text-white p-6 fixed top-0 left-0">
       <h2 className="text-2xl font-bold mb-8">MyDashboard</h2>
       <nav className="space-y-6">
+      <span> 
         <SidebarItem label="🏠 Home" />
-        <SidebarItem label="👥 Users" />
-        <SidebarItem label="📊 Reports" />
-        <SidebarItem label="⚙️ Settings" />
+      </span>
+      <span onClick={(e) => handleNavigate("/file-uploads",e)}>
+          <SidebarItem label="👥 File Uploads"/>
+      </span>
+      <span>
+          <SidebarItem label="📊 Reports" />
+      </span>
+       <span>
+         <SidebarItem label="⚙️ Settings" />
+       </span>
       </nav>
     </aside>
   );
 }
+//  onClick={() => navigate("/file-uploads")}
 
 function SidebarItem({ label }) {
   return (
@@ -60,28 +74,6 @@ export function RecentTable({ loginDetails }) {
   const location = useLocation();
   const {state} = location;
   // console.log("location>>",state);
-
-  useEffect(async () => {
-    // const getLoggedInUser = localStorage.getItem("user");
-    //    const getLoggedInUser = sessionStorage.getItem("user");
-    // if(getLoggedInUser !== null){
-    //   let parseData = JSON.parse(getLoggedInUser);
-    //     let rows = [];
-    //   rows.push(parseData);
-    //   setLoginRecord(rows);
-    // }
-    // if (state) {
-    //   let rows = [];
-    //   rows.push(state);
-    //   setLoginRecord(rows);
-    // }
-
-    const getData = await getRecord();
-    setLoginRecord(getData);
-    console.table(getData);
-    // console.clear();
-  }, []) // The dependency array helps to deconstruct the useEffect after the variable has been called.
-
 
 
   return (
