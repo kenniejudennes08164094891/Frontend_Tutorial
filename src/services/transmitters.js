@@ -1,4 +1,5 @@
 import { referenceVariableEnums } from "../utils/stores";
+
 const userRecord = [];
 const fileData = [];
 
@@ -47,6 +48,20 @@ export async function getUploadedFile(){
     console.log("get fileData>>",fileData)
   return fileData;
   }catch(err){
-    console.error("error from get record")
+    console.error("error from get record");
+  }
+}
+
+
+// View file records
+
+export const setFileDetails =(file) => {
+ localStorage.setItem("file", JSON.stringify(file));
+}
+
+export const getFileDetails = () => {
+  const getFile = localStorage.getItem("file");
+  if(getFile !== null){
+    return JSON.parse(getFile);
   }
 }

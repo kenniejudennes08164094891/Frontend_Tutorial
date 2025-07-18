@@ -1,5 +1,6 @@
 import React, { useState} from "react";
-import { setUploadedFileData,getUploadedFile } from "../services/transmitters";
+import { setUploadedFileData,getUploadedFile, setFileDetails} from "../services/transmitters";
+import { useNavigate } from "react-router-dom";
 
 const FileUploads = () => {
     const [showModal, setShowModal] = useState(false);
@@ -7,6 +8,8 @@ const FileUploads = () => {
     let [uploadedFile, setUploadedFile] = useState("");
     let [fileData, setFileData] = useState({})
     const [showFileUploaded, setShowFileUploaded] = useState(false);
+     const [showUpdateModal, setUpdateModal] = useState(false);
+     const navigate = useNavigate();
 
     const handleChange = (event) => {
         const currentTime = new Date();
@@ -44,9 +47,13 @@ const FileUploads = () => {
 
 
     const handleView = (file) => {
+    //   console.log("file>>",file);
+      setFileDetails(file)
+      navigate("/view-file");
     };
 
     const handleEdit = (file) => {
+         setUpdateModal(true);
     };
 
     const handleDelete = (file) => {
@@ -76,6 +83,8 @@ const FileUploads = () => {
                     Upload Files
                 </button>
             </div>
+
+            {/* Table Component */}
 
             <div className="overflow-x-auto bg-white rounded shadow">
                 <table className="min-w-full table-auto border-collapse">
@@ -131,6 +140,8 @@ const FileUploads = () => {
                 </table>
             </div>
 
+                 {/* File Uploads Modal */}
+
             {/* Modal */}
             {showModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -175,6 +186,40 @@ const FileUploads = () => {
                     </div>
                 </div>
             )}
+
+             <>
+
+      {/* Modal Overlay */}
+      {showUpdateModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          {/* Modal Content */}
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold">Update File</h2>
+              <button
+                onClick={() => setUpdateModal(false)}
+                className="text-gray-500 hover:text-red-500 text-xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+
+            {/* 3x3 Grid */}
+            <div className="grid grid-cols-3 gap-4">
+              {Array.from({ length: 9 }, (_, i) => (
+                <div
+                  key={i}
+                  className="h-20 flex items-center justify-center border rounded text-sm"
+                >
+                  Cell {i + 1}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+
         </div>
     );
 }
