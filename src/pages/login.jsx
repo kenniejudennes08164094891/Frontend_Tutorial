@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import bicycleBoy from "../images/bicycle-boy.svg";
 import { useNavigate } from "react-router-dom";
+import { setRecord } from "../services/transmitters";
+import { referenceVariableData } from "../utils/stores";
 
 function Login() {
   const navigate = useNavigate();
@@ -9,8 +11,9 @@ function Login() {
     email: "",
     password: "",
     isRememberMe: false,
+    isLoggedIn: false,
   });
-  const { email, password, isRememberMe } = userData;
+  const { email, password, isRememberMe, isLoggedIn } = userData;
 
   const handleChange = (e) => {
     setUserData({
@@ -45,12 +48,23 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isFilled = await formIsFilled(userData);
-    console.log("Is form filled?", isFilled);
-    if (isFilled) {
-      await navigate("/dashboard");
-      setUserData({ ...userData, isLoggedIn: true });
+    // console.log("Is form filled?", isFilled);
+    if (isFilled === true) {
+      const currentTime = new Date();
+      const payload = {
+        ...userData,
+        isLoggedIn: true, // ✅ Set login status to true
+        dateLoggedIn: `${currentTime.getDate()}/${
+          currentTime.getMonth() + 1
+        }/${currentTime.getFullYear()} ${currentTime.getHours()}:${currentTime.getMinutes()}:${currentTime.getSeconds()}`,
+      };
+      await setRecord(referenceVariableData.localStorage, "user", payload);
+      // Update the userData state to reflect the login status
+      setUserData(payload);
+      // setUserData({ ...userData, isLoggedIn: true });
       // Simulate a successful login
-      console.log("Login successful", userData);
+      // console.log("Login successful", userData);
+      navigate("/dashboard");
     }
   };
   return (
@@ -116,7 +130,6 @@ function Login() {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  // checked={isLoggedIn}
                   value={isRememberMe}
                   onChange={(e) => handleChange(e)}
                   className="h-3 w-3 text-[#3751FE] focus:ring-[#3751FE] border-gray-300"
@@ -136,6 +149,7 @@ function Login() {
 
             <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0 w-full sm:w-1/2">
               <button
+                value={isLoggedIn}
                 onClick={handleSubmit}
                 type="submit"
                 className="group relative w-full justify-center py-3 px-4 border border-transparent text-sm font-medium shadow-lg shadow-slate-400/50 text-white bg-[#3751FE] focus:outline-none "

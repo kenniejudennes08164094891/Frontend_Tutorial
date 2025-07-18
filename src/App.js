@@ -1,16 +1,18 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import Dashboard from './pages/dasboard';
 import Login from './pages/login';
+import Dashboard from './pages/dashboard';
+import FileUpload from './pages/fileUpload';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      <Routes>
+  <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
+        <Route path="/fileupload" element={<FileUpload />} />
+  </Routes>
     </div>
   );
 }
