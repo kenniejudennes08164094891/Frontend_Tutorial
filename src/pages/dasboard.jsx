@@ -4,7 +4,7 @@ import { getRecord } from "../services/transmitters";
 
 function Sidebar() {
   const navigate = useNavigate();
-  const handleNavigate = (route,e) => {
+  const handleNavigate = (route, e) => {
     e.preventDefault();
     navigate(route);
   }
@@ -12,23 +12,81 @@ function Sidebar() {
     <aside className="w-64 h-screen bg-gray-900 text-white p-6 fixed top-0 left-0">
       <h2 className="text-2xl font-bold mb-8">MyDashboard</h2>
       <nav className="space-y-6">
-      <span> 
-        <SidebarItem label="🏠 Home" />
-      </span>
-      <span onClick={(e) => handleNavigate("/file-uploads",e)}>
-          <SidebarItem label="👥 File Uploads"/>
-      </span>
-      <span>
-          <SidebarItem label="📊 Reports" />
-      </span>
-       <span>
-         <SidebarItem label="⚙️ Settings" />
-       </span>
+        <span>
+          <SidebarItem label="🏠 Home" />
+        </span>
+        <span onClick={(e) => handleNavigate("/file-uploads", e)}>
+          <SidebarItem label="👥 File Uploads" />
+        </span>
+        <span>
+          <SidebarItem label="📊Revenue audits" />
+        </span>
+        <span>
+          <SidebarItem label="⚙️ Settings" />
+        </span>
       </nav>
     </aside>
   );
 }
-//  onClick={() => navigate("/file-uploads")}
+
+
+function GridModal() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [fileData, setFileData] = useState(null)
+
+  const handleUpload = (event) => {
+    const fileData = event?.target?.files[0];
+    setFileData(fileData);
+    // Form Data is a library in js
+    const formData = new FormData();
+    formData.append('fileData',fileData);
+    console.log("get formData uploaded>>",formData.get("fileData"));
+  }
+
+  return (
+    <>
+      {/* Trigger Button */}
+      <button
+        onClick={() => setIsOpen(true)}
+        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      >
+        Open Form Data Modal
+      </button>
+
+      {/* Modal Overlay */}
+      {isOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          {/* Modal Content */}
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold">Form Data File Uploads</h2>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="text-gray-500 hover:text-red-500 text-xl font-bold"
+              >
+                ×
+              </button>
+            </div>
+
+            <div class="flex items-center justify-center w-full">
+              <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 hover:border-gray-400">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                  <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                  </svg>
+                  <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                  <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                </div>
+                <input id="dropzone-file" type="file" class="hidden" onChange={(event) => handleUpload(event)}/>
+              </label>
+            </div>
+
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
 
 function SidebarItem({ label }) {
   return (
@@ -72,7 +130,7 @@ export function RecentTable({ loginDetails }) {
   // It must be declared inside the function to which it is called
   let [loginRecord, setLoginRecord] = useState([])
   const location = useLocation();
-  const {state} = location;
+  const { state } = location;
   // console.log("location>>",state);
 
 
@@ -125,6 +183,7 @@ function Dashboard() {
             <StatCard title="Sales" value="$9,700" />
             <StatCard title="Visitors" value="4,000" />
             <StatCard title="Bounce Rate" value="35%" />
+            <GridModal />
           </div>
 
           {/* Table */}
