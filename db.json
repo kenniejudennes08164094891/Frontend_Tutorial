@@ -1,0 +1,32 @@
+{
+  "customers": [
+    {
+      "id": "db61",
+      "customerName": "Victory",
+      "acctBalance": 7757.79,
+      "currency": "USD",
+      "accountType": "Current"
+    },
+    {
+      "id": "30c9",
+      "customerName": "Sam",
+      "acctBalance": 8757.79,
+      "currency": "USD",
+      "accountType": "Savings"
+    },
+    {
+      "id": "4230",
+      "customerName": "Kenny Jude",
+      "acctBalance": 9757.79,
+      "currency": "USD",
+      "accountType": "Fixed"
+    },
+    {
+      "id": "83ca",
+      "customerName": "kennie judennes",
+      "acctBalance": "8232832738",
+      "currency": "USD",
+      "accountType": "Current"
+    }
+  ]
+}

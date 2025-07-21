@@ -18,8 +18,8 @@ function Sidebar() {
         <span onClick={(e) => handleNavigate("/file-uploads", e)}>
           <SidebarItem label="👥 File Uploads" />
         </span>
-        <span>
-          <SidebarItem label="📊Revenue audits" />
+        <span onClick={(e) => handleNavigate("/customer-data", e)}>
+          <SidebarItem label="📊Customer Data" />
         </span>
         <span>
           <SidebarItem label="⚙️ Settings" />

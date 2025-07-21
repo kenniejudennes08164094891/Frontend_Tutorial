@@ -7,7 +7,7 @@ function ViewFile() {
     useEffect(() => {
         const getData = getFileDetails();
         console.log("getData>>", getData);
-        setFileProfile(getData)
+        setFileProfile(getData);
     }, []);
 
     async function downloadFile() {

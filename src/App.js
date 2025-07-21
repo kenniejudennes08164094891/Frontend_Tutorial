@@ -5,6 +5,7 @@ import Dashboard from './pages/dasboard';
 import Login from './pages/login';
 import FileUploads from './pages/fileUploads';
 import ViewFile from './pages/ViewFile';
+import Customer from './pages/Customer';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/file-uploads" element={<FileUploads />} />
         <Route path="/view-file" element={<ViewFile />} />
+         <Route path="/customer-data" element={<Customer />} />
       </Routes>
     </div>
   );
