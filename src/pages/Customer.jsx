@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { baseUrl } from "../utils/api.env";
+import { apiCall } from "../services/api.calls";
+import { HttpConstants } from "../utils/stores";
 
 function Customer() {
     const [customers, setCustomers] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
+    const [customerProfile, setCustomerProfile] = useState({});
 
     const [form, setForm] = useState({
         customerName: "",
@@ -19,7 +22,6 @@ function Customer() {
 
     const handleAddCustomer = async () => {
         try {
-            //  setCustomers([...customers, form]);
             setForm({
                 customerName: "",
                 acctBalance: "",
@@ -27,25 +29,38 @@ function Customer() {
                 accountType: "Savings",
             });
             setShowModal(false);
-
-            const headers = {
-                "Content-Type": "application/json",
-            };
-
-            const response = await fetch(baseUrl, {
-                method: "POST",
-                headers: headers,
-                body: JSON.stringify(form),
-            });
-
-            const data = await response.json();
-            console.log("Customer successfully created >>", data);
-            return data;
+            const response = await apiCall(HttpConstants.POST,form,undefined);
+            setTimeout(() => window.location.reload(), 200);
+           return response.data;
 
         } catch (err) {
             console.error("err from create new customer>>", err);
         }
     };
+
+    const handleUpdate = async (e, customer) => {
+        e.preventDefault();
+        try{
+            setShowUpdateModal(true);
+            setCustomerProfile(customer);
+        }catch(err){
+            console.error("err from update customer>>", err);
+        }
+    }
+
+       const UpdateCustomer = async (e) => {
+        e.preventDefault();
+        try{
+            const response = await apiCall(HttpConstants.PATCH,form,customer.id);
+               //console.log("reponse>>", response);
+               setShowUpdateModal(true);
+               setTimeout(() => window.location.reload(), 200);
+               return response.data;
+
+        }catch(err){
+            console.error("err from update customer>>", err);
+        }
+    }
 
     useEffect(() => {
         fetchCustomers();
@@ -53,19 +68,9 @@ function Customer() {
 
     async function fetchCustomers() {
         try {
-            // GET, DELETE: fetch(baseUrl, header) 
-
-            const headers = {
-                "Content-Type": "application/json",
-                "Method": "GET"
-            }
-            const getAllCustomers = await fetch(baseUrl, headers);
-            return getAllCustomers.json()?.then((customers) => {
-                // console.log("item>>", customers)
-                setCustomers(customers);
-            }).catch((err) => {
-                console.error("err from GET API>>", err);
-            })
+            const fetchRequests = await apiCall(HttpConstants.GET,undefined,undefined);
+            setCustomers(fetchRequests?.data);
+            return fetchRequests?.data;
         } catch (err) {
             console.error("err from GET request>>", err);
         }
@@ -105,14 +110,14 @@ function Customer() {
                                 </td>
                             </tr>
                         ) : (
-                            customers.map((cust, index) => (
+                            customers.map((customer, index) => (
                                 <tr key={index} className="border-t">
-                                    <td className="p-2">{cust.customerName}</td>
-                                    <td className="p-2">{cust.acctBalance}</td>
-                                    <td className="p-2">{cust.currency}</td>
-                                    <td className="p-2">{cust.accountType}</td>
+                                    <td className="p-2">{customer.customerName}</td>
+                                    <td className="p-2">{customer.acctBalance}</td>
+                                    <td className="p-2">{customer.currency}</td>
+                                    <td className="p-2">{customer.accountType}</td>
                                     <td className="p-2">
-                                        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Update</button>
+                                        <button onClick={(e) =>handleUpdate(e,customer)} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Update</button>
                                         &nbsp;
                                         <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Delete</button>
                                     </td>
@@ -191,6 +196,83 @@ function Customer() {
                                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                             >
                                 Add
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+                {showUpdateModal && (
+                <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+                    <div className="bg-white p-6 rounded shadow-lg w-full max-w-md">
+                        <h2 className="text-xl font-semibold mb-4">Add New Customer</h2>
+
+                        <div className="mb-4">
+                            <label className="block mb-1 font-medium">Customer Name</label>
+                            {/* form.customerName */}
+                            <input
+                                type="text"
+                                name="customerName"
+                                value={ customerProfile.customerName}
+                                onChange={handleChange}
+                                className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="block mb-1 font-medium">Account Balance</label>
+                            {/* form.acctBalance */}
+                            <input
+                                type="number"
+                                name="acctBalance"
+                                value={customerProfile.acctBalance}
+                                onChange={handleChange}
+                                className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="block mb-1 font-medium">Currency</label>
+                            {/* form.currency */}
+                            <select
+                                name="currency"
+                                value={customerProfile.currency}
+                                onChange={handleChange}
+                                className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                            >
+                                <option>Naira</option>
+                                <option>USD</option>
+                                <option>Pounds</option>
+                            </select>
+                        </div>
+
+                        <div className="mb-6">
+                            <label className="block mb-1 font-medium">Account Type</label>
+                            {/* form.accountType */}
+                            <select
+                                name="accountType"
+                                value={customerProfile.accountType}
+                                onChange={handleChange}
+                                className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
+                            >
+                                <option>Savings</option>
+                                <option>Current</option>
+                                <option>Fixed</option>
+                            </select>
+                        </div>
+
+                        <div className="flex justify-end space-x-3">
+                            <button
+                                onClick={() => setShowUpdateModal(false)}
+                                className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={UpdateCustomer}
+                                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                            >
+                                Update
                             </button>
                         </div>
                     </div>

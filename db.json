@@ -27,6 +27,20 @@
       "acctBalance": "8232832738",
       "currency": "USD",
       "accountType": "Current"
+    },
+    {
+      "id": "935a",
+      "customerName": "Jane doe",
+      "acctBalance": "4567899867",
+      "currency": "Naira",
+      "accountType": "Savings"
+    },
+    {
+      "id": "c109",
+      "customerName": "kent edunjobi",
+      "acctBalance": "23456787879",
+      "currency": "USD",
+      "accountType": "Current"
     }
   ]
 }
