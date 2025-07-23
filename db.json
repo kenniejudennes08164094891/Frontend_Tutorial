@@ -1,0 +1,46 @@
+{
+  "customers": [
+    {
+      "id": "db61",
+      "customerName": "Victory",
+      "acctBalance": 7757.79,
+      "currency": "USD",
+      "accountType": "Current"
+    },
+    {
+      "id": "e178",
+      "customerName": "Femi",
+      "acctBalance": 1757.79,
+      "currency": "USD",
+      "accountType": "Savings"
+    },
+    {
+      "id": "1695",
+      "customerName": "Badoo",
+      "acctBalance": 12757.79,
+      "currency": "USD",
+      "accountType": "Savings"
+    },
+    {
+      "id": "393b",
+      "customerName": "David",
+      "acctBalance": 157.79,
+      "currency": "USD",
+      "accountType": "Savings"
+    },
+    {
+      "id": "d028",
+      "customerName": "Olorunda Victory Chidi",
+      "acctBalance": "100000000",
+      "currency": "USD",
+      "accountType": "Savings"
+    },
+    {
+      "id": "a2b6",
+      "customerName": "Olorunda Victory Chidi",
+      "acctBalance": "10000000000000000000",
+      "currency": "USD",
+      "accountType": "Savings"
+    }
+  ]
+}
