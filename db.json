@@ -9,9 +9,9 @@
     },
     {
       "id": "30c9",
-      "customerName": "Sam",
+      "customerName": "Sam Snr",
       "acctBalance": 8757.79,
-      "currency": "USD",
+      "currency": "Pounds",
       "accountType": "Savings"
     },
     {
@@ -20,27 +20,6 @@
       "acctBalance": 9757.79,
       "currency": "USD",
       "accountType": "Fixed"
-    },
-    {
-      "id": "83ca",
-      "customerName": "kennie judennes",
-      "acctBalance": "8232832738",
-      "currency": "USD",
-      "accountType": "Current"
-    },
-    {
-      "id": "935a",
-      "customerName": "Jane doe",
-      "acctBalance": "4567899867",
-      "currency": "Naira",
-      "accountType": "Savings"
-    },
-    {
-      "id": "c109",
-      "customerName": "kent edunjobi",
-      "acctBalance": "23456787879",
-      "currency": "USD",
-      "accountType": "Current"
     }
   ]
 }

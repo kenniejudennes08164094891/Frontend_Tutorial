@@ -7,6 +7,7 @@ function Customer() {
     const [showModal, setShowModal] = useState(false);
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [customerProfile, setCustomerProfile] = useState({});
+    const { customerName, acctBalance, currency, accountType } = customerProfile;
 
     const [form, setForm] = useState({
         customerName: "",
@@ -20,6 +21,13 @@ function Customer() {
         setForm({ ...form, [name]: value });
     };
 
+    const handleUpdateChange = (event) => {
+        setCustomerProfile({
+            ...customerProfile,
+            [event.target.name?.trim()]: event.target.value,
+        });
+    };
+
     const handleAddCustomer = async () => {
         try {
             setForm({
@@ -29,9 +37,9 @@ function Customer() {
                 accountType: "Savings",
             });
             setShowModal(false);
-            const response = await apiCall(HttpConstants.POST,form,undefined);
+            const response = await apiCall(HttpConstants.POST, form, undefined);
             setTimeout(() => window.location.reload(), 200);
-           return response.data;
+            return response.data;
 
         } catch (err) {
             console.error("err from create new customer>>", err);
@@ -40,25 +48,36 @@ function Customer() {
 
     const handleUpdate = async (e, customer) => {
         e.preventDefault();
-        try{
+        try {
             setShowUpdateModal(true);
             setCustomerProfile(customer);
-        }catch(err){
+        } catch (err) {
             console.error("err from update customer>>", err);
         }
     }
 
-       const UpdateCustomer = async (e) => {
+    const UpdateCustomer = async (e) => {
         e.preventDefault();
-        try{
-            const response = await apiCall(HttpConstants.PATCH,form,customer.id);
-               //console.log("reponse>>", response);
-               setShowUpdateModal(true);
-               setTimeout(() => window.location.reload(), 200);
-               return response.data;
+        try {
+            const response = await apiCall(HttpConstants.PATCH, customerProfile, customerProfile.id);
+            //console.log("reponse>>", response);
+            setShowUpdateModal(true);
+            setTimeout(() => window.location.reload(), 200);
+            return response.data;
 
-        }catch(err){
+        } catch (err) {
             console.error("err from update customer>>", err);
+        }
+    }
+
+
+    const handleDelete = async(e, customerId) => {
+        try{
+              const response = await apiCall(HttpConstants.DELETE,undefined, customerId);
+            setTimeout(() => window.location.reload(), 200);
+            return response.data;
+        }catch(error){
+              console.error("err from delete customer>>", error);
         }
     }
 
@@ -68,7 +87,7 @@ function Customer() {
 
     async function fetchCustomers() {
         try {
-            const fetchRequests = await apiCall(HttpConstants.GET,undefined,undefined);
+            const fetchRequests = await apiCall(HttpConstants.GET, undefined, undefined);
             setCustomers(fetchRequests?.data);
             return fetchRequests?.data;
         } catch (err) {
@@ -117,9 +136,13 @@ function Customer() {
                                     <td className="p-2">{customer.currency}</td>
                                     <td className="p-2">{customer.accountType}</td>
                                     <td className="p-2">
-                                        <button onClick={(e) =>handleUpdate(e,customer)} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Update</button>
+                                       <span onClick={(e) => handleUpdate(e, customer)}>
+                                         <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Update</button>
+                                       </span>
                                         &nbsp;
-                                        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Delete</button>
+                                        <span>
+                                            <button onClick={(e) =>handleDelete(e, customer.id)} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Delete</button>
+                                        </span>
                                     </td>
                                 </tr>
                             ))
@@ -202,7 +225,7 @@ function Customer() {
                 </div>
             )}
 
-                {showUpdateModal && (
+            {showUpdateModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded shadow-lg w-full max-w-md">
                         <h2 className="text-xl font-semibold mb-4">Add New Customer</h2>
@@ -213,8 +236,8 @@ function Customer() {
                             <input
                                 type="text"
                                 name="customerName"
-                                value={ customerProfile.customerName}
-                                onChange={handleChange}
+                                value={customerName}
+                                onChange={(event) => handleUpdateChange(event)}
                                 className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                             />
                         </div>
@@ -225,8 +248,8 @@ function Customer() {
                             <input
                                 type="number"
                                 name="acctBalance"
-                                value={customerProfile.acctBalance}
-                                onChange={handleChange}
+                                value={acctBalance}
+                                onChange={(event) => handleUpdateChange(event)}
                                 className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                             />
                         </div>
@@ -236,8 +259,8 @@ function Customer() {
                             {/* form.currency */}
                             <select
                                 name="currency"
-                                value={customerProfile.currency}
-                                onChange={handleChange}
+                                value={currency}
+                                onChange={(event) => handleUpdateChange(event)}
                                 className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                             >
                                 <option>Naira</option>
@@ -251,8 +274,8 @@ function Customer() {
                             {/* form.accountType */}
                             <select
                                 name="accountType"
-                                value={customerProfile.accountType}
-                                onChange={handleChange}
+                                value={accountType}
+                                onChange={(event) => handleUpdateChange(event)}
                                 className="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:ring-blue-300"
                             >
                                 <option>Savings</option>
@@ -269,7 +292,7 @@ function Customer() {
                                 Cancel
                             </button>
                             <button
-                                onClick={UpdateCustomer}
+                                onClick={(e) => UpdateCustomer(e)}
                                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                             >
                                 Update
