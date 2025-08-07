@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login'},
   {path: 'login',component: LoginComponent},
   {path: 'dashboard',component: DashboardComponent},
-  {path: 'view-profile',component: ViewProfileComponent},
+  {path: 'view-profile',component: ViewProfileComponent}, // legacy method: view-profile/:id
 ];
 
 @NgModule({

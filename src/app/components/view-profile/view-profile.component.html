@@ -1,1 +1,82 @@
-<p>view-profile works!</p>
+<div class="p-4">
+
+
+  <!-- 6-row, 2-column grid (12 cells total) -->
+  <div class="p-4">
+    <!-- Top bar with back button and header -->
+    <div class="flex items-center space-x-4 mb-6">
+      <button (click)="routeBack()" class="text-xl md:text-2xl" aria-label="Go back">←</button>
+      <h1 class="text-lg md:text-2xl font-semibold">Transaction Profile</h1>
+    </div>
+
+    <!-- 12 Cells Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="p-4 border rounded">
+        <h2 class="text-sm font-semibold text-gray-600">Transaction ID</h2>
+        <p class="text-base font-medium">{{transDetail.metaData.transactionId}}</p>
+      </div>
+
+      <div class="p-4 border rounded">
+        <h2 class="text-sm font-semibold text-gray-600">User ID</h2>
+        <p class="text-base font-medium">{{transDetail.metaData.userId}}</p>
+      </div>
+
+      <div class="p-4 border rounded">
+        <h2 class="text-sm font-semibold text-gray-600">Location</h2>
+        <p class="text-base font-medium">{{transDetail.metaData.location}}</p>
+      </div>
+
+      <div class="p-4 border rounded">
+        <h2 class="text-sm font-semibold text-gray-600">Currency</h2>
+        <p class="text-base font-medium">{{transDetail.metaData.currency | uppercase}}</p>
+      </div>
+
+      <div class="p-4 border rounded">
+        <h2 class="text-sm font-semibold text-gray-600">Channel</h2>
+        <p class="text-base font-medium">{{transDetail.metaData.channel}}</p>
+      </div>
+
+      <div class="p-4 border rounded">
+        <h2 class="text-sm font-semibold text-gray-600">Approval Code</h2>
+        <p class="text-base font-medium text-gray-400 italic">{{transDetail.metaData.approvalCode}}</p>
+      </div>
+
+      <div class="p-4 border rounded">
+        <h2 class="text-sm font-semibold text-gray-600">Remarks</h2>
+        <p class="text-base font-medium">{{transDetail.metaData.remarks}}</p>
+      </div>
+
+      <div class="p-4 border rounded">
+        <h2 class="text-sm font-semibold text-gray-600">Date</h2>
+        <p class="text-base font-medium">{{transDetail.date | date}}</p>
+      </div>
+
+      <div class="p-4 border rounded">
+        <h2 class="text-sm font-semibold text-gray-600">Type</h2>
+        <p class="text-base font-medium">{{transDetail.type}}</p>
+      </div>
+
+      <div class="p-4 border rounded">
+        <h2 class="text-sm font-semibold text-gray-600">Amount</h2>
+        <p class="text-base font-medium">{{transDetail.amount | currency: '$'}}</p>
+      </div>
+
+      <div class="p-4 border rounded">
+        <h2 class="text-sm font-semibold text-gray-600">Status</h2>
+        <p class="text-base font-medium text-yellow-600">
+          <span [ngClass]="{
+                    'text-green-600': transDetail.status === 'Completed',
+                    'text-yellow-600': transDetail.status === 'Pending',
+                    'text-red-600': transDetail.status === 'Failed'
+                  }">{{transDetail.status}}</span>
+        </p>
+      </div>
+
+      <div class="p-4 border rounded">
+        <h2 class="text-sm font-semibold text-gray-600">Action</h2>
+        <button class="text-sm text-blue-600 underline">View More</button>
+      </div>
+    </div>
+  </div>
+
+</div>
