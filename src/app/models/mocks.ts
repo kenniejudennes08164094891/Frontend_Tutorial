@@ -142,3 +142,13 @@ interface MetaDataObject{
         approvalCode?: string | null;
         remarks?: string | null;
     }
+
+
+    export interface UserCredentials {
+      email: string;
+      password: string;
+    }
+
+    export interface OTPVerification {
+       otp: string;
+    }

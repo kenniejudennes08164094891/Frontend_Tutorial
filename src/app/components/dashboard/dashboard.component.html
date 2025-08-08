@@ -3,16 +3,26 @@
   <!-- Sidebar and Content -->
   <div class="flex h-screen overflow-hidden">
     <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-md px-6 py-8">
-      <h2 class="text-2xl font-bold mb-6 text-blue-600">Fintech Admin</h2>
-      <nav class="space-y-4">
-        <a href="#" class="text-gray-700 hover:text-blue-600 block">Dashboard</a>
-        <a href="#" class="text-gray-700 hover:text-blue-600 block">Transactions</a>
-        <a href="#" class="text-gray-700 hover:text-blue-600 block">ATM Cards</a>
-        <a href="#" class="text-gray-700 hover:text-blue-600 block">Issues</a>
-        <a href="#" class="text-gray-700 hover:text-blue-600 block">Settings</a>
-      </nav>
-    </aside>
+<aside class="w-64 bg-white shadow-md px-6 py-8 flex flex-col justify-between h-screen">
+  <div>
+    <h2 class="text-2xl font-bold mb-6 text-blue-600">Fintech Admin</h2>
+    <nav class="space-y-4">
+      <a href="#" class="text-gray-700 hover:text-blue-600 block">Dashboard</a>
+      <a href="#" class="text-gray-700 hover:text-blue-600 block">Transactions</a>
+      <a href="#" class="text-gray-700 hover:text-blue-600 block">ATM Cards</a>
+      <a href="#" class="text-gray-700 hover:text-blue-600 block">Issues</a>
+      <a href="#" class="text-gray-700 hover:text-blue-600 block">Settings</a>
+    </nav>
+  </div>
+
+  <!-- Logout Button -->
+<button (click)="logoutUser()" class="mt-8 text-red-600 hover:text-red-800 font-semibold flex items-center gap-2">
+  Logout
+  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H4m12 0-4 4m4-4-4-4m3-4h2a3 3 0 013 3v10a3 3 0 01-3 3h-2"/>
+  </svg>
+  </button>
+</aside>
 
     <!-- Main Content -->
     <main class="flex-1 p-6 overflow-y-auto bg-gray-50">

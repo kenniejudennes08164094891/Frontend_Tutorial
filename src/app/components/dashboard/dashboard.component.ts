@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { transactions, Transactions, TransactionObject } from 'src/app/models/mocks';
+import { AuthServiceService } from 'src/app/services/auth-service.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +12,8 @@ export class DashboardComponent {
   transaction: Transactions[] = transactions;
   constructor(
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService : AuthServiceService
   ) {
     // Initialize or fetch transactions if needed
   }
@@ -39,5 +41,18 @@ export class DashboardComponent {
     //   }
     // });
   }
+
+   async logoutUser(): Promise<void> {
+    try {
+      await this.authService.logoutUser();
+      await this.router.navigate(['/login']);
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  }
+
+
+  // npm i ngx-toastr: https://www.npmjs.com/package/ngx-toastr
+  // npm install @angular/animations --save
 
 }

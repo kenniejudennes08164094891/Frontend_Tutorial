@@ -6,6 +6,11 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
+import { FormsModule } from '@angular/forms';
+// FormsModule is used for template-driven forms i.e [(ngModel)] binding
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -16,7 +21,10 @@ import { ViewProfileComponent } from './components/view-profile/view-profile.com
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
   ],
   providers: [],
   bootstrap: [AppComponent]
