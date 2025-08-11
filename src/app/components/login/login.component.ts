@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ImageIcons, OTPVerification, UserCredentials } from 'src/app/models/mocks';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { firstValueFrom } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { AuthGuard } from 'src/app/guards/auth.guard';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   bgImage = ImageIcons.bgImage;
   showOTPInput: boolean = false;
@@ -29,7 +30,8 @@ export class LoginComponent {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthServiceService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private authGuard: AuthGuard
   ) { }
 
 
@@ -69,6 +71,7 @@ export class LoginComponent {
       }
       const otpResponse = await firstValueFrom(this.authService.matchOTP(this.otpInput));
       if (otpResponse.isVerified === true) {
+        this.authService.setOTPCode(this.otpInput.otp);
         this.router.navigate(['/dashboard'], { relativeTo: this.route });
         this.toastr.success(otpResponse.message, 'OTP Verified', {
           timeOut: 3000,
@@ -94,8 +97,22 @@ export class LoginComponent {
     }
   }
 
+  logoutBeforLogin() {
+    if (
+      this.authService.isAuthenticated() === true && !this.authGuard.canActivate == false
+    ) {
+      this.router.navigate(['/dashboard'], {
+        relativeTo: this.route
+      }
+      );
+    }
+  }
 
 
+
+  ngOnInit(): void {
+    this.logoutBeforLogin();
+  }
 
 
 }

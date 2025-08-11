@@ -13,8 +13,12 @@ export class AuthServiceService {
   // At this service, we can implement authentication methods like login, logout, and check if a user is authenticated.
 
 
-  public setUserCredentials(token: string): void {
+  public setUserCredentials(token: string, OTPCode: string): void {
     sessionStorage.setItem('userDetails', token);
+  }
+
+  public setOTPCode(otpCode: string): void {
+    sessionStorage.setItem('otpCode', otpCode);
   }
 
   public getUserCredentials(): UserCredentials | null {
@@ -22,12 +26,20 @@ export class AuthServiceService {
     return user ? JSON.parse(atob(user)) : null;
   }
 
+  public getOTPCode(): string | null {
+    const otpCode: string | null = sessionStorage.getItem('otpCode');
+    return otpCode ? sessionStorage.getItem('otpCode') : null;
+  }
+
+
+
   public clearUserCredentials(): void {
-    sessionStorage.removeItem('userDetails');
+    sessionStorage.clear();
+    this.otpGenerated = null; // Clear the OTP when credentials are cleared
   }
 
   public isAuthenticated(): boolean {
-    return this.getUserCredentials() !== null;
+    return this.getOTPCode() === null ? false : true;
   }
 
    generateOTP(): string {
@@ -45,8 +57,8 @@ export class AuthServiceService {
 
     // Simulating a JWT token generation and storing user credentials
     const JWTToken = btoa(JSON.stringify(userDetail)); // Simulating a JWT token encryption
-    this.setUserCredentials(JWTToken);
     this.otpGenerated = this.generateOTP();
+    this.setUserCredentials(JWTToken, this.otpGenerated);
 
     // of converts a promise into an Observable
     return of({
