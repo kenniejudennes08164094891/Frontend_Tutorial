@@ -32,28 +32,7 @@
       </header>
 
       <!-- Statistics Cards -->
-      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10">
-        <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
-          <h3 class="text-sm text-gray-500">Total Withdrawals</h3>
-          <p class="text-2xl font-semibold text-blue-600">₦1,200,000</p>
-        </div>
-        <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
-          <h3 class="text-sm text-gray-500">Total Transfers</h3>
-          <p class="text-2xl font-semibold text-green-600">₦3,450,000</p>
-        </div>
-        <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
-          <h3 class="text-sm text-gray-500">Deposits</h3>
-          <p class="text-2xl font-semibold text-purple-600">₦2,780,000</p>
-        </div>
-        <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
-          <h3 class="text-sm text-gray-500">ATM Cards Issued</h3>
-          <p class="text-2xl font-semibold text-yellow-600">120</p>
-        </div>
-        <div class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
-          <h3 class="text-sm text-gray-500">Defect Reports</h3>
-          <p class="text-2xl font-semibold text-red-600">8</p>
-        </div>
-      </section>
+       <app-child (emmitCard)="getStatusFromChild($event)" [isMarked]="isToBeMarked"></app-child>
 
       <!-- Recent Transactions Table -->
       <section class="bg-white p-6 rounded-xl shadow">
@@ -67,7 +46,8 @@
                 <th class="p-3 text-sm font-medium text-gray-600">Type</th>
                 <th class="p-3 text-sm font-medium text-gray-600">Amount</th>
                 <th class="p-3 text-sm font-medium text-gray-600">Status</th>
-                  <th class="p-3 text-sm font-medium text-gray-600"></th>
+       
+                       <th class="p-3 text-sm font-medium text-gray-600"></th>
               </tr>
             </thead>
             <tbody>
@@ -117,7 +97,13 @@
                    </div> -->
 
                 </td>
+                      
                     <td class="p-3 text-sm text-gray-800">
+                        <button (click)="showMarked(item.status)" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                       >
+                      show ✅
+                      </button>
+                      &nbsp;
                       <button (click)="viewDetails(item, id+1)" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
                        >
                       View Details

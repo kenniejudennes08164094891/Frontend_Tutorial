@@ -1,0 +1,11 @@
+      <!-- Statistics Cards -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 cursor-pointer">
+        <div *ngFor="let cardProp of statsCards" (click)="fetchStatus(cardProp)" class="bg-white p-5 rounded-xl shadow hover:shadow-lg transition">
+          <h3 class="text-sm text-gray-500">
+            {{cardProp.title}} &nbsp;
+            <span *ngIf="(isMarked.marked === true) && (isMarked.status === cardProp.status)">✅</span>
+          </h3>
+          <p [className]="'text-2xl font-semibold' + ' ' + cardProp.color">{{cardProp.value}}</p>
+        
+        </div>
+      </section>

@@ -1,8 +1,9 @@
+
 export class Mocks {
 }
 
 export const ImageIcons = {
-    bgImage: 'assets/images/money.jpeg',
+  bgImage: 'assets/images/money.jpeg',
 }
 
 export const transactions = [
@@ -116,39 +117,51 @@ export const transactions = [
 
 
 export class Transactions {
-    constructor(
-        public date: string,
-        public type: string,
-        public amount: number,
-        public status: string,
-        public metaData: MetaDataObject
-    ) { }
+  constructor(
+    public date: string,
+    public type: string,
+    public amount: number,
+    public status: string,
+    public metaData: MetaDataObject
+  ) { }
 }
 
-export interface TransactionObject{
-    date: string;
-    type: string;
-    amount: number;
-    status: string;
-    metaData: MetaDataObject;
+export interface TransactionObject {
+  date: string;
+  type: string;
+  amount: number;
+  status: string;
+  metaData: MetaDataObject;
 }
 
-interface MetaDataObject{
-        transactionId: string;
-        userId: string;
-        location: string;
-        currency: string;
-        channel: string;
-        approvalCode?: string | null;
-        remarks?: string | null;
-    }
+interface MetaDataObject {
+  transactionId: string;
+  userId: string;
+  location: string;
+  currency: string;
+  channel: string;
+  approvalCode?: string | null;
+  remarks?: string | null;
+}
 
 
-    export interface UserCredentials {
-      email: string;
-      password: string;
-    }
+export interface UserCredentials {
+  email: string;
+  password: string;
+}
 
-    export interface OTPVerification {
-       otp: string;
-    }
+export interface OTPVerification {
+  otp: string;
+}
+
+export const statsCards = [
+  { title: 'Total Transactions amount', value: '17', color: 'text-gray-800'},
+  { title: 'Pending Transactions', value: '15', color: 'text-yellow-500', status: 'Pending' },
+  { title: 'Completed Transactions', value: '145' , color: 'text-green-500', status: 'Completed' },
+  { title: 'Failed Transactions', value: '145',color: 'text-red-500', status: 'Failed' }
+]
+
+export interface IsMarkedProps{
+  status:string | any, 
+  marked: boolean
+}

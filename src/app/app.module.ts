@@ -11,13 +11,15 @@ import { FormsModule } from '@angular/forms';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { ChildComponent } from './components/dashboard/child/child.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    ViewProfileComponent
+    ViewProfileComponent,
+    ChildComponent
   ],
   imports: [
     BrowserModule,

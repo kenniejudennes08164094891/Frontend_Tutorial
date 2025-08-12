@@ -5,11 +5,20 @@ import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
 import { bodyGuard } from './guards/body.guard';
+import { ChildComponent } from './components/dashboard/child/child.component';
+
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'login'},
   {path: 'login',component: LoginComponent},
-  {path: 'dashboard',component: DashboardComponent, canActivate: [bodyGuard]},
+  {
+    path: 'dashboard',
+    component: DashboardComponent, 
+    canActivate: [bodyGuard],
+    children: [
+      {path: "stats-cards", component: ChildComponent},
+    ]
+  },
   {path: 'view-profile',component: ViewProfileComponent,canActivate: [bodyGuard]}, // legacy method: view-profile/:id
 ];
 
