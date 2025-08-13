@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { transactions, Transactions, TransactionObject, IsMarkedProps } from 'src/app/models/mocks';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { CreateTransactionModalComponent } from 'src/app/utils/create-transaction-modal/create-transaction-modal.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,17 +14,28 @@ import { AuthServiceService } from 'src/app/services/auth-service.service';
 export class DashboardComponent {
   transaction: Transactions[] = transactions;
   isToBeMarked: IsMarkedProps = { status: '', marked: false };
+  searchQuery: string = "";
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthServiceService,
     private toastr: ToastrService,
+    private dialog: MatDialog
   ) {
     // Initialize or fetch transactions if needed
   }
 
 
+  listenToInput(event:Event | any){
+    const input = event as string;
+    this.searchQuery = input;
+    console.log("input>>", input);
+  }
 
+
+  openTransactionModal(){
+    this.dialog.open(CreateTransactionModalComponent);
+  }
 
 
   viewDetails(details: TransactionObject, idNumber: number) {

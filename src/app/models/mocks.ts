@@ -122,7 +122,7 @@ export class Transactions {
     public type: string,
     public amount: number,
     public status: string,
-    public metaData: MetaDataObject
+    public metaData: MetaDataObject | any
   ) { }
 }
 
@@ -131,7 +131,7 @@ export interface TransactionObject {
   type: string;
   amount: number;
   status: string;
-  metaData: MetaDataObject;
+  metaData: MetaDataObject | any;
 }
 
 interface MetaDataObject {
@@ -165,3 +165,7 @@ export interface IsMarkedProps{
   status:string | any, 
   marked: boolean
 }
+
+export const TransactionType: string[] = ["Deposit", "Payment", "Withdrawal", "Transfer"];
+
+export const TransactionStatus: string[] = ["Completed", "Pending", "Failed"];

@@ -12,4 +12,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
       initFlowbite();
   }
+
+  // ng add @angular/material
 }

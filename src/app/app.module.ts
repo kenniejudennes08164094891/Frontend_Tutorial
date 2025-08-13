@@ -12,6 +12,20 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ChildComponent } from './components/dashboard/child/child.component';
+import { TransactionsPipe } from './pipes/transactions.pipe';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
+import { CreateTransactionModalComponent } from './utils/create-transaction-modal/create-transaction-modal.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
+
+const materialModules = [
+  MatDialogModule,MatButtonModule,MatFormFieldModule,MatInputModule,
+  MatIconModule,MatRadioModule,MatSelectModule
+]
 
 @NgModule({
   declarations: [
@@ -19,7 +33,9 @@ import { ChildComponent } from './components/dashboard/child/child.component';
     LoginComponent,
     DashboardComponent,
     ViewProfileComponent,
-    ChildComponent
+    ChildComponent,
+    TransactionsPipe,
+    CreateTransactionModalComponent
   ],
   imports: [
     BrowserModule,
@@ -27,6 +43,7 @@ import { ChildComponent } from './components/dashboard/child/child.component';
     FormsModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
+    materialModules
   ],
   providers: [],
   bootstrap: [AppComponent]
