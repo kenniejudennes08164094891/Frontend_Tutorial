@@ -3,13 +3,14 @@
 </h2>
 
 <mat-dialog-content class="mat-typography w-full bg-gray-50 rounded-lg shadow-inner p-5">
-  <div class="grid grid-cols-1 gap-5">
+ <form [formGroup]="transactionForm">
+   <div class="grid grid-cols-1 gap-5">
 
     <!-- Input Amount -->
     <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>Input Amount</mat-label>
-        <input matInput placeholder="Input amount in ₦">
+        <input matInput placeholder="Input amount in ₦" formControlName="amount">
         <mat-icon matSuffix>create</mat-icon>
         <mat-hint>Enter the transaction amount</mat-hint>
       </mat-form-field>
@@ -18,7 +19,7 @@
     <!-- Transaction Type -->
     <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
       <p class="font-medium mb-2">Select Transaction Type</p>
-      <mat-radio-group aria-label="Select an option" class="flex flex-col gap-2">
+      <mat-radio-group formControlName="payemntType" aria-label="Select an option" class="flex flex-col gap-2">
         <mat-radio-button
           *ngFor="let item of paymentTypes"
           [value]="item">
@@ -32,7 +33,7 @@
       <p class="font-medium mb-2">Select Transaction Status</p>
       <mat-form-field appearance="fill" class="w-full">
         <mat-label>Transaction Status</mat-label>
-        <mat-select>
+        <mat-select formControlName="paymentStatus">
           <mat-option
             *ngFor="let status of transactionStatus"
             [value]="status">
@@ -44,13 +45,14 @@
 
     <!-- Submit Button -->
     <div class="flex justify-end">
-      <button
+      <button mat-dialog-close (click)="submitTransaction()"
         class="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 transition">
         Create
       </button>
     </div>
 
   </div>
+ </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" class="pt-3 border-t border-gray-200">

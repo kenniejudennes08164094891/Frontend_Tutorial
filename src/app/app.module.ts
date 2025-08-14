@@ -6,8 +6,9 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ViewProfileComponent } from './components/view-profile/view-profile.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 // FormsModule is used for template-driven forms i.e [(ngModel)] binding
+// ReactiveFormsModule is used for form controls and validations. It is the most effecient form method in Angular
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -43,7 +44,8 @@ const materialModules = [
     FormsModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
-    materialModules
+    materialModules,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

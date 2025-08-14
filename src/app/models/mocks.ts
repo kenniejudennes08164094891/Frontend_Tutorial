@@ -161,6 +161,15 @@ export const statsCards = [
   { title: 'Failed Transactions', value: '145',color: 'text-red-500', status: 'Failed' }
 ]
 
+export class StatusCards{
+  constructor(
+    public title: string,
+    public value: string,
+    public color: string,
+    public status?: string | undefined
+  ){}
+}
+
 export interface IsMarkedProps{
   status:string | any, 
   marked: boolean
@@ -169,3 +178,9 @@ export interface IsMarkedProps{
 export const TransactionType: string[] = ["Deposit", "Payment", "Withdrawal", "Transfer"];
 
 export const TransactionStatus: string[] = ["Completed", "Pending", "Failed"];
+
+export enum TransStatus {
+completed = "Completed",
+pending = "Pending",
+failed = "Failed"
+}

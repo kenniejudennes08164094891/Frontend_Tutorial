@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { transactions, Transactions, TransactionObject, IsMarkedProps } from 'src/app/models/mocks';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
+import { EmmittersService } from 'src/app/services/emmitters.service';
 import { CreateTransactionModalComponent } from 'src/app/utils/create-transaction-modal/create-transaction-modal.component';
 
 @Component({
@@ -11,16 +12,18 @@ import { CreateTransactionModalComponent } from 'src/app/utils/create-transactio
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent {
-  transaction: Transactions[] = transactions;
+export class DashboardComponent implements OnInit{
+  transaction: Transactions[] = [] //transactions;
   isToBeMarked: IsMarkedProps = { status: '', marked: false };
   searchQuery: string = "";
+  dummyArray: Transactions[] = [];
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthServiceService,
     private toastr: ToastrService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private emmitterService: EmmittersService
   ) {
     // Initialize or fetch transactions if needed
   }
@@ -29,7 +32,7 @@ export class DashboardComponent {
   listenToInput(event:Event | any){
     const input = event as string;
     this.searchQuery = input;
-    console.log("input>>", input);
+    //console.log("input>>", input);
   }
 
 
@@ -74,10 +77,12 @@ export class DashboardComponent {
     const status:string = event as string; // event as string is a ts code to declare the event message as a string
     let filteredStatus = this.transaction.filter((item: TransactionObject) => item.status?.toLowerCase() === status?.toLowerCase());
     if(!filteredStatus[0]?.status?.toLowerCase().includes(status?.toLowerCase())){
-        filteredStatus = transactions.filter((item: TransactionObject) => item?.status?.toLowerCase() === status?.toLowerCase());
+        filteredStatus = this.dummyArray.filter((item: TransactionObject) => item?.status?.toLowerCase() === status?.toLowerCase());
+        // transactions
     }
 
-      this.transaction = filteredStatus.length > 0 ? filteredStatus : transactions; // if the filtered status is empty, then return all transactions
+      this.transaction = filteredStatus.length > 0 ? filteredStatus : this.dummyArray;  // transactions
+       // if the filtered status is empty, then return all transactions
 
     this.toastr.info(`All ${status} status has been fetched succesfully!`, 'Message', {
       timeOut: 1000,
@@ -87,7 +92,12 @@ export class DashboardComponent {
 
   showMarked(status:string){
     this.isToBeMarked = { status: status, marked: true};
+  }
 
+  ngOnInit(): void {
+    this.transaction = this.emmitterService.getTransactionData();
+    this.dummyArray = this.emmitterService.getTransactionData();
+   // console.log("get transaction>>",this.transaction);
   }
 
 
