@@ -22,6 +22,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
+import { FormatAmountDirective } from './validators/format-amount.directive';
 
 const materialModules = [
   MatDialogModule,MatButtonModule,MatFormFieldModule,MatInputModule,
@@ -36,7 +37,8 @@ const materialModules = [
     ViewProfileComponent,
     ChildComponent,
     TransactionsPipe,
-    CreateTransactionModalComponent
+    CreateTransactionModalComponent,
+    FormatAmountDirective
   ],
   imports: [
     BrowserModule,

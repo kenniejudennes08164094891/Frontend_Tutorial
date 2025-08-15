@@ -28,7 +28,7 @@ export class CreateTransactionModalComponent implements OnInit {
   getReactiveForm() {
     this.transactionForm = new FormGroup({
       createdDate: new FormControl(new Date(), [Validators.required]),
-      amount: new FormControl("", [Validators.required]),  // Validators.min(5000), Validators.max(100000), Validators.minLength(4), Validators.maxLength(7)
+      amount: new FormControl("", [Validators.required,  Validators.min(5000), Validators.pattern('[0-9]*')]),  // Validators.min(5000), Validators.max(100000), Validators.minLength(4), Validators.maxLength(7)
       payemntType: new FormControl("", [Validators.required]),
       paymentStatus: new FormControl("", [Validators.required])
     })

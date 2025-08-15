@@ -3,56 +3,67 @@
 </h2>
 
 <mat-dialog-content class="mat-typography w-full bg-gray-50 rounded-lg shadow-inner p-5">
- <form [formGroup]="transactionForm">
-   <div class="grid grid-cols-1 gap-5">
+  <form [formGroup]="transactionForm">
+    <div class="grid grid-cols-1 gap-5">
 
-    <!-- Input Amount -->
-    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Input Amount</mat-label>
-        <input matInput placeholder="Input amount in ₦" formControlName="amount">
-        <mat-icon matSuffix>create</mat-icon>
-        <mat-hint>Enter the transaction amount</mat-hint>
-      </mat-form-field>
+      <!-- Input Amount -->
+      <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Input Amount</mat-label>
+          <input matInput placeholder="Input amount in ₦" formControlName="amount" appFormatAmount/>
+          <mat-icon matSuffix>create</mat-icon>
+          <mat-hint class="text-red-500">
+            <span class="float-left"
+              *ngIf="transactionForm.get('amount')?.['invalid'] && (transactionForm.get('amount')?.['touched'] || transactionForm.get('amount')?.['dirty'])">
+              <small class="text-danger" *ngIf="transactionForm.get('amount')?.errors?.['required']">
+                *Amount is a required field...
+              </small>
+               <small class="text-danger" *ngIf="transactionForm.get('amount')?.errors?.['pattern']">
+                *Only digits are required.
+              </small>
+              <small class="text-danger" *ngIf="transactionForm.get('amount')?.errors?.['min']">
+                *The minimum amount is ₦5000
+              </small>
+            </span>
+          </mat-hint>
+        </mat-form-field>
+      </div>
+
+      <!-- Transaction Type -->
+      <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+        <p class="font-medium mb-2">Select Transaction Type</p>
+        <mat-radio-group formControlName="payemntType" aria-label="Select an option" class="flex flex-col gap-2">
+          <mat-radio-button *ngFor="let item of paymentTypes" [value]="item">
+            {{item}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Status Dropdown -->
+      <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+        <p class="font-medium mb-2">Select Transaction Status</p>
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>Transaction Status</mat-label>
+          <mat-select formControlName="paymentStatus">
+            <mat-option *ngFor="let status of transactionStatus" [value]="status">
+              {{status}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="flex justify-end">
+        <button [disabled]="!transactionForm.valid"
+          [ngStyle]="{'background-color': !transactionForm.valid ? 'gray' : 'blue' }" mat-dialog-close
+          (click)="submitTransaction()"
+          class="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 transition">
+          Create
+        </button>
+      </div>
+
     </div>
-
-    <!-- Transaction Type -->
-    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-      <p class="font-medium mb-2">Select Transaction Type</p>
-      <mat-radio-group formControlName="payemntType" aria-label="Select an option" class="flex flex-col gap-2">
-        <mat-radio-button
-          *ngFor="let item of paymentTypes"
-          [value]="item">
-          {{item}}
-        </mat-radio-button>
-      </mat-radio-group>
-    </div>
-
-    <!-- Status Dropdown -->
-    <div class="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-      <p class="font-medium mb-2">Select Transaction Status</p>
-      <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Transaction Status</mat-label>
-        <mat-select formControlName="paymentStatus">
-          <mat-option
-            *ngFor="let status of transactionStatus"
-            [value]="status">
-            {{status}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <!-- Submit Button -->
-    <div class="flex justify-end">
-      <button mat-dialog-close (click)="submitTransaction()"
-        class="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:ring-2 focus:ring-blue-300 transition">
-        Create
-      </button>
-    </div>
-
-  </div>
- </form>
+  </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" class="pt-3 border-t border-gray-200">
