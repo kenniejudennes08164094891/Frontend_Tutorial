@@ -49,7 +49,7 @@ export class CreateTransactionModalComponent implements OnInit {
     this.transactionObject.type = this.transactionForm.get('payemntType')?.value,
     this.transactionObject.metaData = undefined;
     this.emmitterService.setTransactionData(this.transactionObject);
-   // this.dialogRef.close(this.transactionObject); // using dialogRef to send data back to the Parent component
+   //// this.dialogRef.close(this.transactionObject); // using dialogRef to send data back to the Parent component
   
   }
 
