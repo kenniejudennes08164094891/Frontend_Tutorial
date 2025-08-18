@@ -23,10 +23,11 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import { FormatAmountDirective } from './validators/format-amount.directive';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 const materialModules = [
   MatDialogModule,MatButtonModule,MatFormFieldModule,MatInputModule,
-  MatIconModule,MatRadioModule,MatSelectModule
+  MatIconModule,MatRadioModule,MatSelectModule,MatToolbarModule
 ]
 
 @NgModule({

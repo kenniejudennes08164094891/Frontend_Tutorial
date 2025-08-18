@@ -37,8 +37,25 @@ export class DashboardComponent implements OnInit{
 
 
   openTransactionModal(){
-    this.dialog.open(CreateTransactionModalComponent);
+    // Open the dialog to send data
+  const openModal =  this.dialog.open(CreateTransactionModalComponent,{
+      width: '1000px',
+      data: {
+        title: "Create Transaction Modal"   // you can declare object or arrays here too
+      }
+    })
+
+
+    // To fetch data from the component
+    // openModal.afterClosed().subscribe({
+    //   next: (formResult:any) => {
+    //     console.log("form result>>", formResult);
+    //     this.transaction.push(formResult);
+    //   }
+    // })
   }
+
+
 
 
   viewDetails(details: TransactionObject, idNumber: number) {

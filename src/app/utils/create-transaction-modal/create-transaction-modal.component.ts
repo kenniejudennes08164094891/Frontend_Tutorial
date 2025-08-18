@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { TransactionType, TransactionStatus, TransactionObject } from 'src/app/models/mocks';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EmmittersService } from 'src/app/services/emmitters.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-transaction-modal',
@@ -20,10 +21,16 @@ export class CreateTransactionModalComponent implements OnInit {
     status: "",
     metaData: undefined
   }
+  header: string = "";
 
   constructor(
-    private emmitterService: EmmittersService
-  ) { }
+    private emmitterService: EmmittersService,
+    @Inject(MAT_DIALOG_DATA) public data: any,   // receives from the dashboard
+       public dialogRef: MatDialogRef<CreateTransactionModalComponent>, // sends to 
+  ) { 
+    console.log("data from dashboard>>", data);
+    this.header = data?.title   // data comes from the matDialog declared in the dashboard component
+  }
 
   getReactiveForm() {
     this.transactionForm = new FormGroup({
@@ -42,10 +49,16 @@ export class CreateTransactionModalComponent implements OnInit {
     this.transactionObject.type = this.transactionForm.get('payemntType')?.value,
     this.transactionObject.metaData = undefined;
     this.emmitterService.setTransactionData(this.transactionObject);
+   // this.dialogRef.close(this.transactionObject); // using dialogRef to send data back to the Parent component
+  
   }
 
   ngOnInit(): void {
     this.getReactiveForm();
+  }
+
+  closeModal(){
+    this.dialogRef.close();
   }
 
 }

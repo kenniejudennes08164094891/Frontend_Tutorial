@@ -15,8 +15,8 @@ export class ViewProfileComponent {
   ) {
     const nav = router.getCurrentNavigation();
     const routeProps: any = nav?.extras.state;
-    console.log("Navigation state:", routeProps.transactionDetails);
     this.transDetail = routeProps.transactionDetails;
+      console.log("transDetail>>", this.transDetail);
   }
 
   routeBack() {
