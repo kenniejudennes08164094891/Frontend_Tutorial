@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { transactions, Transactions, TransactionObject, IsMarkedProps } from 'src/app/models/mocks';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { EmmittersService } from 'src/app/services/emmitters.service';
@@ -12,11 +13,13 @@ import { CreateTransactionModalComponent } from 'src/app/utils/create-transactio
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit{
+export class DashboardComponent implements OnInit, OnDestroy{
   transaction: Transactions[] = [] //transactions;
   isToBeMarked: IsMarkedProps = { status: '', marked: false };
   searchQuery: string = "";
   dummyArray: Transactions[] = [];
+  evenNumbersSubscription$!: Subscription; // where ! is called a non-null assertion operator
+  evenNumbers: string = "";
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -115,9 +118,35 @@ export class DashboardComponent implements OnInit{
     this.transaction = this.emmitterService.getTransactionData();
     this.dummyArray = this.emmitterService.getTransactionData();
    // console.log("get transaction>>",this.transaction);
+   this.getEvenNumbersEmmitted();
+  }
+
+  emmitOddNumbers(){
+    this.emmitterService.emmitDummyArray([1,3,5,7])
+  }
+
+  getEvenNumbersEmmitted(){
+       // Subscription is majorly done in the component
+       this.evenNumbersSubscription$ = this.emmitterService.getEmmittedEvenNumbersArray().subscribe({
+        next: (evenNumbersArray:number[]) => {
+        //  console.log("evenNumbersArray>>",evenNumbersArray);
+          this.evenNumbers = evenNumbersArray.toString();
+        },
+        error: (err: Error | any) => {
+          console.error("error from the emmitted observable>>", err);
+        },
+        complete: () => {
+          console.info("Data subscribed succesfully!");
+        }
+       })
+  }
+
+  ngOnDestroy(): void {
+    this.evenNumbersSubscription$.unsubscribe();
   }
 
 
+  //Task tmrw: converting an observable into a promise, and a promise into an observable
 
   // npm i ngx-toastr: https://www.npmjs.com/package/ngx-toastr
   // npm install @angular/animations --save

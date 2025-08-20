@@ -50,7 +50,6 @@ export class CreateTransactionModalComponent implements OnInit {
     this.transactionObject.metaData = undefined;
     this.emmitterService.setTransactionData(this.transactionObject);
    //// this.dialogRef.close(this.transactionObject); // using dialogRef to send data back to the Parent component
-  
   }
 
   ngOnInit(): void {
