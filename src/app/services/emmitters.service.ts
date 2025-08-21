@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Transactions, TransactionObject, StatusCards } from '../models/mocks';
-import { BehaviorSubject, map, Observable, ReplaySubject, Subject, Subscription, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, ReplaySubject, Subject, Subscription, tap, timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
