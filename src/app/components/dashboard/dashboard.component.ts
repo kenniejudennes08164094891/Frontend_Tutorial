@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom, lastValueFrom, map, Subscription, takeWhile, timer } from 'rxjs';
 import { transactions, Transactions, TransactionObject, IsMarkedProps } from 'src/app/models/mocks';
+import { ApiService } from 'src/app/services/api.service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { EmmittersService } from 'src/app/services/emmitters.service';
 import { CreateTransactionModalComponent } from 'src/app/utils/create-transaction-modal/create-transaction-modal.component';
@@ -37,7 +38,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private authService: AuthServiceService,
     private toastr: ToastrService,
     private dialog: MatDialog,
-    private emmitterService: EmmittersService
+    private emmitterService: EmmittersService,
+    private apiService:ApiService
   ) {
     // Initialize or fetch transactions if needed
   }
@@ -126,12 +128,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.transaction = this.emmitterService.getTransactionData();
-    this.dummyArray = this.emmitterService.getTransactionData();
+    // this.transaction = this.emmitterService.getTransactionData();
+    // this.dummyArray = this.emmitterService.getTransactionData();
     // console.log("get transaction>>",this.transaction);
     this.getEvenNumbersEmmitted();
     this.convertObservableIntoPromise();
     this.getCountdownTimer();
+    this.getCustomerTransactionFromAPI();
+  }
+
+  getCustomerTransactionFromAPI(){
+    this.apiService.getCustomerTransaction().subscribe({
+      next: (response:any) => {
+        console.log("Http response>>", response);
+        this.transaction = response;
+      },
+      error: (err: Error | any) => {
+        console.log("error from Http fetch>>", err)
+      }
+    })
+    // http://localhost:3000/customers?_page=4&_limit=5
   }
 
   emmitOddNumbers() {

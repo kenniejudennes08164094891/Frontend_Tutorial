@@ -24,6 +24,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import { FormatAmountDirective } from './validators/format-amount.directive';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { HttpClientModule } from '@angular/common/http';
 
 const materialModules = [
   MatDialogModule,MatButtonModule,MatFormFieldModule,MatInputModule,
@@ -48,9 +49,14 @@ const materialModules = [
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
     materialModules,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
+//  npm install -g json-server
+//  json-server --watch db.json

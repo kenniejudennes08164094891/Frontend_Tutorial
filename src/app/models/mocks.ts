@@ -184,3 +184,7 @@ completed = "Completed",
 pending = "Pending",
 failed = "Failed"
 }
+
+export const endpoints = {
+  getTransactions: "customers"
+}
