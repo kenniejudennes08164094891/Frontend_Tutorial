@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom, lastValueFrom, map, Subscription, takeWhile, timer } from 'rxjs';
-import { transactions, Transactions, TransactionObject, IsMarkedProps } from 'src/app/models/mocks';
+import { transactions, Transactions, TransactionObject, IsMarkedProps, PaginationParams } from 'src/app/models/mocks';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { EmmittersService } from 'src/app/services/emmitters.service';
@@ -22,15 +22,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
   evenNumbersSubscription$!: Subscription; // where ! is called a non-null assertion operator
   evenNumbers: string = "";
 
-    // createing a timer coundown
-   // Observable for countdown
+  // createing a timer coundown
+  // Observable for countdown
   timer$ = timer(0, 1000).pipe(
     map((elapsed) => this.totalSeconds - elapsed),
     takeWhile((val) => val >= 0)
   );
   formattedTime: string = '';
   private timerSubscription$!: Subscription;
-  private totalSeconds = 60; 
+  private totalSeconds = 60;
+
+  // pagination variables
+  paginationParams: PaginationParams = {
+    _page: 1,
+    _limit: 10
+  }
+  paginationArrayToShow: any = [];
+  showPagination: boolean = true;
+  showNoData: boolean | null = null;
+  showSpinner: boolean = true;
 
   constructor(
     private router: Router,
@@ -39,7 +49,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private toastr: ToastrService,
     private dialog: MatDialog,
     private emmitterService: EmmittersService,
-    private apiService:ApiService
+    private apiService: ApiService
   ) {
     // Initialize or fetch transactions if needed
   }
@@ -137,18 +147,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getCustomerTransactionFromAPI();
   }
 
-  getCustomerTransactionFromAPI(){
-    this.apiService.getCustomerTransaction().subscribe({
-      next: (response:any) => {
-        console.log("Http response>>", response);
-        this.transaction = response;
-      },
-      error: (err: Error | any) => {
-        console.log("error from Http fetch>>", err)
-      }
-    })
-    // http://localhost:3000/customers?_page=4&_limit=5
-  }
+
 
   emmitOddNumbers() {
     this.emmitterService.emmitDummyArray([1, 3, 5, 7])
@@ -187,7 +186,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
- 
+
   ngOnDestroy(): void {
     this.evenNumbersSubscription$.unsubscribe();
   }
@@ -213,6 +212,50 @@ export class DashboardComponent implements OnInit, OnDestroy {
   pad(num: number): string {
     return num < 10 ? '0' + num : num.toString();
   }
+
+
+  getCustomerTransactionFromAPI() {
+    this.apiService.getCustomerTransaction(this.paginationParams).subscribe({
+      next: (response: any) => {
+        console.log("Http response>>", response);
+        this.showSpinner = false;
+        this.transaction = response;
+        this.paginationArrayToShow = Array(this.paginationParams._page).fill(this.paginationParams._page).map((_, index) => index + 1);
+        if (this.transaction?.length === 0) {
+          this.showNoData = true;
+          this.showPagination = false;
+        } else if (this.transaction?.length > 0) {
+          this.showNoData = false;
+          this.showPagination = true;
+        }
+      },
+      error: (err: Error | any) => {
+        console.log("error from Http fetch>>", err)
+      }
+    })
+    // http://localhost:3000/customers?_page=4&_limit=5
+  }
+
+
+  nextPage() {
+    this.paginationParams._page++;
+    this.showSpinner = true;
+    this.getCustomerTransactionFromAPI();
+  }
+
+  prevPage() {
+    if (this.paginationParams._page > 0) {
+      this.paginationParams._page--;
+      this.showSpinner = true;
+      this.getCustomerTransactionFromAPI();
+    }
+  }
+
+  getCurrentPage(pageNoToPull: number) {
+    this.paginationParams._page = pageNoToPull;
+    this.getCustomerTransactionFromAPI();
+  }
+
 
 
   // npm i ngx-toastr: https://www.npmjs.com/package/ngx-toastr

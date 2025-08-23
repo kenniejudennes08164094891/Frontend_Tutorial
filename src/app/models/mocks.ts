@@ -188,3 +188,9 @@ failed = "Failed"
 export const endpoints = {
   getTransactions: "customers"
 }
+
+
+export interface PaginationParams{
+  _page: number, 
+  _limit: number   
+}
