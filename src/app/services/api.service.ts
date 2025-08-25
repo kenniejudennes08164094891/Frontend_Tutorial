@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { endpoints, PaginationParams } from '../models/mocks';
+import { endpoints, PaginationParams,TransactionObject } from '../models/mocks';
 import { environment } from '../environments/environment.prod';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -22,4 +22,24 @@ export class ApiService {
    return this.http.get<any>(endpointUrl,{headers: header, params: paginationParams });
   
   }
+
+  public createTransaction(payload:TransactionObject):Observable<any>{
+    const header: HttpHeaders = new HttpHeaders({
+      "Content-Type": "application/json",
+      "method": "POST"
+    })
+    const endpointUrl = `${environment.baseUrl}/${endpoints.createTransaction}`;
+    const body = JSON.stringify(payload)
+   return this.http.post<any>(endpointUrl,body,{headers: header});
+  }
+
+  public deleteTransaction(id:string):Observable<any>{
+    const header: HttpHeaders = new HttpHeaders({
+      "Content-Type": "application/json",
+      "method": "DELETE"
+    })
+    const endpointUrl = `${environment.baseUrl}/${endpoints.deleteTransaction}/${id}`;
+   return this.http.delete<any>(endpointUrl,{headers: header});
+  } 
+
 }

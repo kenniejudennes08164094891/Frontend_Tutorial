@@ -122,11 +122,12 @@ export class Transactions {
     public type: string,
     public amount: number,
     public status: string,
-    public metaData: MetaDataObject | any
+    public metaData: MetaDataObject | undefined | any
   ) { }
 }
 
 export interface TransactionObject {
+  id?: string;
   date: string;
   type: string;
   amount: number;
@@ -186,7 +187,9 @@ failed = "Failed"
 }
 
 export const endpoints = {
-  getTransactions: "customers"
+  getTransactions: "customers",
+  createTransaction: "customers",
+  deleteTransaction: "customers",
 }
 
 

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { firstValueFrom, lastValueFrom, map, Subscription, takeWhile, timer } from 'rxjs';
+import { firstValueFrom, lastValueFrom, map, Observable, Subscription, takeWhile, timer } from 'rxjs';
 import { transactions, Transactions, TransactionObject, IsMarkedProps, PaginationParams } from 'src/app/models/mocks';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // pagination variables
   paginationParams: PaginationParams = {
     _page: 1,
-    _limit: 10
+    _limit: 50
   }
   paginationArrayToShow: any = [];
   showPagination: boolean = true;
@@ -81,6 +81,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // })
   }
 
+
+  async deleteTransaction(item: TransactionObject): Promise<any> {
+    // item.id is used because the id is optional in the TransactionObject interface
+    try {
+      const response = await firstValueFrom(this.apiService.deleteTransaction(item.id || ""));
+      this.toastr.success("Transaction deleted successfully!", "Success");
+      this.ngOnInit();  // to refresh the list after deletion;
+    } catch (err) {
+      this.toastr.error("Failed to delete transaction!", "Error");
+    }
+  }
 
 
 
@@ -219,7 +230,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       next: (response: any) => {
         console.log("Http response>>", response);
         this.showSpinner = false;
-        this.transaction = response;
+        this.transaction = response.reverse();
         this.paginationArrayToShow = Array(this.paginationParams._page).fill(this.paginationParams._page).map((_, index) => index + 1);
         if (this.transaction?.length === 0) {
           this.showNoData = true;

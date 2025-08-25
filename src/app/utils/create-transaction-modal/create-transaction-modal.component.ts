@@ -3,6 +3,8 @@ import { TransactionType, TransactionStatus, TransactionObject } from 'src/app/m
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EmmittersService } from 'src/app/services/emmitters.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ApiService } from 'src/app/services/api.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-transaction-modal',
@@ -22,11 +24,14 @@ export class CreateTransactionModalComponent implements OnInit {
     metaData: undefined
   }
   header: string = "";
+  btnText: string = "Create Transaction";
 
   constructor(
     private emmitterService: EmmittersService,
     @Inject(MAT_DIALOG_DATA) public data: any,   // receives from the dashboard
-       public dialogRef: MatDialogRef<CreateTransactionModalComponent>, // sends to 
+       public dialogRef: MatDialogRef<CreateTransactionModalComponent>, // sends to ,
+       private apiService: ApiService,
+       private toastr: ToastrService
   ) { 
     console.log("data from dashboard>>", data);
     this.header = data?.title   // data comes from the matDialog declared in the dashboard component
@@ -42,14 +47,27 @@ export class CreateTransactionModalComponent implements OnInit {
   }
 
   submitTransaction() {
+    this.btnText = "Processing...";
     // console.log("transaction>>", this.transactionForm.value);
     this.transactionObject.amount = Number(this.transactionForm.get('amount')?.value),
     this.transactionObject.date = this.transactionForm.get('createdDate')?.value?.toLocaleDateString(),
     this.transactionObject.status = this.transactionForm.get('paymentStatus')?.value,
     this.transactionObject.type = this.transactionForm.get('payemntType')?.value,
     this.transactionObject.metaData = undefined;
-    this.emmitterService.setTransactionData(this.transactionObject);
-   //// this.dialogRef.close(this.transactionObject); // using dialogRef to send data back to the Parent component
+    // this.emmitterService.setTransactionData(this.transactionObject);
+    this.apiService.createTransaction(this.transactionObject).subscribe({
+      next: (res)=>{
+        console.log("response from create transaction api>>", res);
+        this.dialogRef.close(this.transactionObject);
+        this.toastr.success("Transaction created successfully!", "Success");
+      },
+      error: (err)=>{
+        console.log("error from create transaction api>>", err);
+        this.btnText = "Create Transaction";
+        this.toastr.error("Failed to create transaction!", "Error");
+      }
+    })
+
   }
 
   ngOnInit(): void {

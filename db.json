@@ -1,306 +1,156 @@
 {
-    "customers": [
-  {
-    "date": "2025-08-01",
-    "type": "Deposit",
-    "amount": 5000,
-    "status": "Completed",
-    "metaData": {
-      "id": "TXN001",
-      "reference": "REF001",
-      "createdBy": "Admin",
-      "updatedBy": "Admin",
-      "location": "Lagos",
-      "device": "Web",
-      "notes": "First transaction"
+  "customers": [
+    {
+      "date": "2025-08-12",
+      "type": "Withdrawal",
+      "amount": 1700,
+      "status": "Pending",
+      "metaData": {
+        "id": "TXN012",
+        "reference": "REF012",
+        "createdBy": "User9",
+        "updatedBy": "Admin",
+        "location": "Sokoto",
+        "device": "ATM",
+        "notes": "Awaiting cash availability"
+      },
+      "id": "a9fe"
+    },
+    {
+      "date": "2025-08-13",
+      "type": "Deposit",
+      "amount": 500,
+      "status": "Completed",
+      "metaData": {
+        "id": "TXN013",
+        "reference": "REF013",
+        "createdBy": "User10",
+        "updatedBy": "Admin",
+        "location": "Lokoja",
+        "device": "Web",
+        "notes": "Business deposit"
+      },
+      "id": "3a13"
+    },
+    {
+      "date": "2025-08-14",
+      "type": "Transfer",
+      "amount": 2100,
+      "status": "Completed",
+      "metaData": {
+        "id": "TXN014",
+        "reference": "REF014",
+        "createdBy": "Admin",
+        "updatedBy": "User11",
+        "location": "Makurdi",
+        "device": "Mobile",
+        "notes": "Payment transfer"
+      },
+      "id": "69ed"
+    },
+    {
+      "date": "2025-08-15",
+      "type": "Withdrawal",
+      "amount": 1400,
+      "status": "Failed",
+      "metaData": {
+        "id": "TXN015",
+        "reference": "REF015",
+        "createdBy": "User12",
+        "updatedBy": "Admin",
+        "location": "Maiduguri",
+        "device": "ATM",
+        "notes": "Card error"
+      },
+      "id": "41a6"
+    },
+    {
+      "date": "2025-08-16",
+      "type": "Deposit",
+      "amount": 2600,
+      "status": "Completed",
+      "metaData": {
+        "id": "TXN016",
+        "reference": "REF016",
+        "createdBy": "User13",
+        "updatedBy": "User13",
+        "location": "Ilorin",
+        "device": "POS",
+        "notes": "Savings deposit"
+      },
+      "id": "2537"
+    },
+    {
+      "date": "2025-08-17",
+      "type": "Transfer",
+      "amount": 1800,
+      "status": "Pending",
+      "metaData": {
+        "id": "TXN017",
+        "reference": "REF017",
+        "createdBy": "User14",
+        "updatedBy": "Admin",
+        "location": "Warri",
+        "device": "Mobile",
+        "notes": "Processing transfer"
+      },
+      "id": "2470"
+    },
+    {
+      "date": "2025-08-18",
+      "type": "Deposit",
+      "amount": 3900,
+      "status": "Completed",
+      "metaData": {
+        "id": "TXN018",
+        "reference": "REF018",
+        "createdBy": "Admin",
+        "updatedBy": "Admin",
+        "location": "Abeokuta",
+        "device": "Web",
+        "notes": "Company funds"
+      },
+      "id": "2a7f"
+    },
+    {
+      "date": "2025-08-19",
+      "type": "Withdrawal",
+      "amount": 1100,
+      "status": "Completed",
+      "metaData": {
+        "id": "TXN019",
+        "reference": "REF019",
+        "createdBy": "User15",
+        "updatedBy": "User15",
+        "location": "Calabar",
+        "device": "ATM",
+        "notes": "Cash withdrawal"
+      },
+      "id": "d301"
+    },
+    {
+      "date": "2025-08-20",
+      "type": "Transfer",
+      "amount": 2750,
+      "status": "Completed",
+      "metaData": {
+        "id": "TXN020",
+        "reference": "REF020",
+        "createdBy": "User16",
+        "updatedBy": "Admin",
+        "location": "Osogbo",
+        "device": "Mobile",
+        "notes": "School fees payment"
+      },
+      "id": "af65"
+    },
+    {
+      "id": "4026",
+      "date": "25/08/2025",
+      "type": "Deposit",
+      "amount": 8888,
+      "status": "Pending"
     }
-  },
-  {
-    "date": "2025-08-02",
-    "type": "Withdrawal",
-    "amount": 2000,
-    "status": "Pending",
-    "metaData": {
-      "id": "TXN002",
-      "reference": "REF002",
-      "createdBy": "Admin",
-      "updatedBy": "Admin",
-      "location": "Abuja",
-      "device": "Mobile",
-      "notes": "Second transaction"
-    }
-  },
-  {
-    "date": "2025-08-03",
-    "type": "Transfer",
-    "amount": 1500,
-    "status": "Completed",
-    "metaData": {
-      "id": "TXN003",
-      "reference": "REF003",
-      "createdBy": "User1",
-      "updatedBy": "Admin",
-      "location": "Kano",
-      "device": "Web",
-      "notes": "Third transaction"
-    }
-  },
-  {
-    "date": "2025-08-04",
-    "type": "Deposit",
-    "amount": 800,
-    "status": "Failed",
-    "metaData": {
-      "id": "TXN004",
-      "reference": "REF004",
-      "createdBy": "User2",
-      "updatedBy": "User2",
-      "location": "Port Harcourt",
-      "device": "ATM",
-      "notes": "Network error"
-    }
-  },
-  {
-    "date": "2025-08-05",
-    "type": "Withdrawal",
-    "amount": 2200,
-    "status": "Completed",
-    "metaData": {
-      "id": "TXN005",
-      "reference": "REF005",
-      "createdBy": "Admin",
-      "updatedBy": "User3",
-      "location": "Enugu",
-      "device": "POS",
-      "notes": "Successful"
-    }
-  },
-  {
-    "date": "2025-08-06",
-    "type": "Transfer",
-    "amount": 1000,
-    "status": "Pending",
-    "metaData": {
-      "id": "TXN006",
-      "reference": "REF006",
-      "createdBy": "User4",
-      "updatedBy": "Admin",
-      "location": "Ibadan",
-      "device": "Mobile",
-      "notes": "Awaiting approval"
-    }
-  },
-  {
-    "date": "2025-08-07",
-    "type": "Deposit",
-    "amount": 600,
-    "status": "Completed",
-    "metaData": {
-      "id": "TXN007",
-      "reference": "REF007",
-      "createdBy": "User5",
-      "updatedBy": "User5",
-      "location": "Jos",
-      "device": "ATM",
-      "notes": "Cash deposit"
-    }
-  },
-  {
-    "date": "2025-08-08",
-    "type": "Withdrawal",
-    "amount": 750,
-    "status": "Failed",
-    "metaData": {
-      "id": "TXN008",
-      "reference": "REF008",
-      "createdBy": "Admin",
-      "updatedBy": "Admin",
-      "location": "Benin",
-      "device": "POS",
-      "notes": "Insufficient funds"
-    }
-  },
-  {
-    "date": "2025-08-09",
-    "type": "Deposit",
-    "amount": 950,
-    "status": "Completed",
-    "metaData": {
-      "id": "TXN009",
-      "reference": "REF009",
-      "createdBy": "User6",
-      "updatedBy": "User6",
-      "location": "Owerri",
-      "device": "Web",
-      "notes": "Salary deposit"
-    }
-  },
-  {
-    "date": "2025-08-10",
-    "type": "Transfer",
-    "amount": 3300,
-    "status": "Completed",
-    "metaData": {
-      "id": "TXN010",
-      "reference": "REF010",
-      "createdBy": "User7",
-      "updatedBy": "Admin",
-      "location": "Kaduna",
-      "device": "Mobile",
-      "notes": "Family transfer"
-    }
-  },
-  {
-    "date": "2025-08-11",
-    "type": "Deposit",
-    "amount": 150,
-    "status": "Completed",
-    "metaData": {
-      "id": "TXN011",
-      "reference": "REF011",
-      "createdBy": "Admin",
-      "updatedBy": "User8",
-      "location": "Katsina",
-      "device": "POS",
-      "notes": "Small deposit"
-    }
-  },
-  {
-    "date": "2025-08-12",
-    "type": "Withdrawal",
-    "amount": 1700,
-    "status": "Pending",
-    "metaData": {
-      "id": "TXN012",
-      "reference": "REF012",
-      "createdBy": "User9",
-      "updatedBy": "Admin",
-      "location": "Sokoto",
-      "device": "ATM",
-      "notes": "Awaiting cash availability"
-    }
-  },
-  {
-    "date": "2025-08-13",
-    "type": "Deposit",
-    "amount": 500,
-    "status": "Completed",
-    "metaData": {
-      "id": "TXN013",
-      "reference": "REF013",
-      "createdBy": "User10",
-      "updatedBy": "Admin",
-      "location": "Lokoja",
-      "device": "Web",
-      "notes": "Business deposit"
-    }
-  },
-  {
-    "date": "2025-08-14",
-    "type": "Transfer",
-    "amount": 2100,
-    "status": "Completed",
-    "metaData": {
-      "id": "TXN014",
-      "reference": "REF014",
-      "createdBy": "Admin",
-      "updatedBy": "User11",
-      "location": "Makurdi",
-      "device": "Mobile",
-      "notes": "Payment transfer"
-    }
-  },
-  {
-    "date": "2025-08-15",
-    "type": "Withdrawal",
-    "amount": 1400,
-    "status": "Failed",
-    "metaData": {
-      "id": "TXN015",
-      "reference": "REF015",
-      "createdBy": "User12",
-      "updatedBy": "Admin",
-      "location": "Maiduguri",
-      "device": "ATM",
-      "notes": "Card error"
-    }
-  },
-  {
-    "date": "2025-08-16",
-    "type": "Deposit",
-    "amount": 2600,
-    "status": "Completed",
-    "metaData": {
-      "id": "TXN016",
-      "reference": "REF016",
-      "createdBy": "User13",
-      "updatedBy": "User13",
-      "location": "Ilorin",
-      "device": "POS",
-      "notes": "Savings deposit"
-    }
-  },
-  {
-    "date": "2025-08-17",
-    "type": "Transfer",
-    "amount": 1800,
-    "status": "Pending",
-    "metaData": {
-      "id": "TXN017",
-      "reference": "REF017",
-      "createdBy": "User14",
-      "updatedBy": "Admin",
-      "location": "Warri",
-      "device": "Mobile",
-      "notes": "Processing transfer"
-    }
-  },
-  {
-    "date": "2025-08-18",
-    "type": "Deposit",
-    "amount": 3900,
-    "status": "Completed",
-    "metaData": {
-      "id": "TXN018",
-      "reference": "REF018",
-      "createdBy": "Admin",
-      "updatedBy": "Admin",
-      "location": "Abeokuta",
-      "device": "Web",
-      "notes": "Company funds"
-    }
-  },
-  {
-    "date": "2025-08-19",
-    "type": "Withdrawal",
-    "amount": 1100,
-    "status": "Completed",
-    "metaData": {
-      "id": "TXN019",
-      "reference": "REF019",
-      "createdBy": "User15",
-      "updatedBy": "User15",
-      "location": "Calabar",
-      "device": "ATM",
-      "notes": "Cash withdrawal"
-    }
-  },
-  {
-    "date": "2025-08-20",
-    "type": "Transfer",
-    "amount": 2750,
-    "status": "Completed",
-    "metaData": {
-      "id": "TXN020",
-      "reference": "REF020",
-      "createdBy": "User16",
-      "updatedBy": "Admin",
-      "location": "Osogbo",
-      "device": "Mobile",
-      "notes": "School fees payment"
-    }
-  }
-]
-,
-    "posts": []
+  ],
+  "posts": []
 }
