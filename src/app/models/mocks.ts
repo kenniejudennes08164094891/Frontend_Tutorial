@@ -190,6 +190,7 @@ export const endpoints = {
   getTransactions: "customers",
   createTransaction: "customers",
   deleteTransaction: "customers",
+  updateCustomer: "customers"
 }
 
 

@@ -25,6 +25,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { FormatAmountDirective } from './validators/format-amount.directive';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { HttpClientModule } from '@angular/common/http';
+import { UpdateTransactionComponent } from './utils/update-transaction/update-transaction.component';
 
 const materialModules = [
   MatDialogModule,MatButtonModule,MatFormFieldModule,MatInputModule,
@@ -40,7 +41,8 @@ const materialModules = [
     ChildComponent,
     TransactionsPipe,
     CreateTransactionModalComponent,
-    FormatAmountDirective
+    FormatAmountDirective,
+    UpdateTransactionComponent
   ],
   imports: [
     BrowserModule,

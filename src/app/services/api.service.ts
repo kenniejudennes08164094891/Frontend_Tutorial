@@ -42,4 +42,23 @@ export class ApiService {
    return this.http.delete<any>(endpointUrl,{headers: header});
   } 
 
+  public updateTransaction(id:string, payload:TransactionObject):Observable<any>{   
+    const header: HttpHeaders = new HttpHeaders({
+      "Content-Type": "application/json",
+      "method": "PATCH"
+    })
+    const endpointUrl = `${environment.baseUrl}/${endpoints.updateCustomer}/${id}`;
+    const body = JSON.stringify(payload);
+   return this.http.patch<any>(endpointUrl,body,{headers: header});
+  } 
+
+  getSingleTransaction(id:string):Observable<any>{
+    const header: HttpHeaders = new HttpHeaders({
+      "Content-Type": "application/json",
+      "method": "GET"
+    })
+    const endpointUrl = `${environment.baseUrl}/${endpoints.getTransactions}/${id}`;
+   return this.http.get<any>(endpointUrl,{headers: header});
+  }
+
 }

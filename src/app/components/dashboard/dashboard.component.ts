@@ -8,6 +8,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { AuthServiceService } from 'src/app/services/auth-service.service';
 import { EmmittersService } from 'src/app/services/emmitters.service';
 import { CreateTransactionModalComponent } from 'src/app/utils/create-transaction-modal/create-transaction-modal.component';
+import { UpdateTransactionComponent } from 'src/app/utils/update-transaction/update-transaction.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -265,6 +266,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getCurrentPage(pageNoToPull: number) {
     this.paginationParams._page = pageNoToPull;
     this.getCustomerTransactionFromAPI();
+  }
+
+  updateTransaction(item: TransactionObject) {
+    // code for updating a transaction will go here 
+    const openModal = this.dialog.open(UpdateTransactionComponent, {
+      width: '1000px',
+      data: {
+        title: "Update Transaction Modal" ,  // you can declare object or arrays here too
+        entryId: item.id,
+        entryDetails: item
+      }
+    })
   }
 
 
